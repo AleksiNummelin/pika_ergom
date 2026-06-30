@@ -21,7 +21,6 @@ exec(open('cgt_mixing_timestep.py').read(),globals())
 exec(open('configure.py').read(),globals())
 exec(open('myplot.py').read(),globals())
 
-
 print('initialization')
 
 #load timestep, initial date etc.
@@ -52,7 +51,18 @@ def load_matrix(filename):
     return(input_matrix)
 def load_vector(filename):
     return(np.loadtxt(filename,usecols=range(5),comments='%'))
+
+### --- AGT
+
+import xarray as xr
+
+#da                           = xr.open_dataarray
+#forcing_matrix_temperature   = da.sel...  # select a point from the NEMO output
+
 forcing_matrix_temperature   = load_matrix('physics/temperature.txt')  # temperature [deg_C]
+
+### -------
+
 forcing_matrix_salinity      = load_matrix('physics/salinity.txt')     # salinity [g/kg]
 forcing_matrix_light_at_top  = load_vector('physics/light_at_top.txt') # downward flux of 
                                                                        # shortwave light at sea surface [W/m2]
@@ -175,3 +185,34 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
     
     # update the current date/time
     current_date = current_date + timestep
+
+### --- AGT --- ###
+
+import xarray as xr
+import pandas as pd
+
+# write a limited number of variables to netcdf
+
+# coordinates
+
+time  = pd.date_range("1964-01-01", periods=366)
+depth = np.flip(np.linspace(0,115,116))
+
+# variables
+
+output_t_o2 = np.transpose(output_t_o2)
+da = xr.DataArray(data=output_t_o2,dims=["depth","time"],coords=dict(depth=depth,time=time),attrs=dict(units="mol kg⁻¹",),)
+da.to_netcdf('t_o2.nc')
+
+output_t_lpp = np.transpose(output_t_lpp)
+da = xr.DataArray(data=output_t_lpp,dims=["depth","time"],coords=dict(depth=depth,time=time),attrs=dict(units="mol kg⁻¹",),)
+da.to_netcdf('t_lpp.nc')
+
+output_t_spp = np.transpose(output_t_spp)
+da = xr.DataArray(data=output_t_spp,dims=["depth","time"],coords=dict(depth=depth,time=time),attrs=dict(units="mol kg⁻¹",),)
+da.to_netcdf('t_spp.nc')
+
+output_t_cya = np.transpose(output_t_cya)
+da = xr.DataArray(data=output_t_cya,dims=["depth","time"],coords=dict(depth=depth,time=time),attrs=dict(units="mol kg⁻¹",),)
+da.to_netcdf('t_cya.nc')
+
