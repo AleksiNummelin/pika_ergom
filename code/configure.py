@@ -2,7 +2,7 @@ def configure():
     global start_date    
     start_date         = (dt.date(2020,1,1) - dt.date(1899,12,30)).days  # start date
     global end_date
-    end_date           = (dt.date(2021,1,1) - dt.date(1899,12,30)).days  # final date  
+    end_date           = (dt.date(2020,12,31) - dt.date(1899,12,30)).days  # final date  
     global repeated_runs
     repeated_runs      = 1                    # how often the same forcing period is repeated
     global timestep

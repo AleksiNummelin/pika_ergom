@@ -7,6 +7,7 @@
 import xarray as xr
 import pandas as pd
 import load_profiles
+import load_qsw
 ### -------
 
 import datetime as dt
@@ -92,8 +93,12 @@ forcing_matrix_salinity   = ds.so.values
 
 ### -------
 
-forcing_matrix_light_at_top  = load_vector('physics/light_at_top.txt') # downward flux of 
+#forcing_matrix_light_at_top  = load_vector('physics/light_at_top.txt') # downward flux of 
                                                                        # shortwave light at sea surface [W/m2]
+forcing_matrix_light_at_top  = pd.read_csv('physics/weather_station_Utö_2020.csv',header=0,usecols=[5])
+
+print(forcing_matrix_light_at_top)
+
 forcing_matrix_bottom_stress = load_vector('physics/bottom_stress.txt')# bottom stress [N/m2]                                                              
 forcing_matrix_opacity_water = load_matrix('physics/opacity_water.txt')# clear-water opacity [1/m]
 forcing_matrix_diffusivity   = load_matrix('physics/diffusivity.txt')  # turbulent vertical diffusivity [m2/s]
@@ -139,15 +144,21 @@ output_count  = 0;
 
 print('starting the run');
 
+forcing_scalar_light_at_top = 0
+counter = -1
 # do the timestep
 while current_date < repeated_runs*(end_date-start_date)+start_date:
+    counter = counter + 1
     # load the physics
     forcing_vector_temperature, forcing_day_temperature , forcing_index_temperature = load_profiles.load_profiles(forcing_matrix_temperature,current_date,forcing_day_temperature,forcing_index_temperature,kmax)
     #forcing_vector_temperature  , forcing_index_temperature   = load_forcing.load_forcing(forcing_matrix_temperature,current_date,start_date,end_date, kmax, forcing_index_temperature)
     forcing_vector_salinity   , forcing_day_salinity    , forcing_index_salinity    = load_profiles.load_profiles(forcing_matrix_salinity   ,current_date,forcing_day_salinity   ,forcing_index_salinity   ,kmax)
     forcing_vector_opacity_water, forcing_index_opacity_water = load_forcing.load_forcing(forcing_matrix_opacity_water,current_date,start_date,end_date, kmax, forcing_index_opacity_water)
     forcing_vector_diffusivity  , forcing_index_diffusivity   = load_forcing.load_forcing(forcing_matrix_diffusivity,current_date,start_date,end_date, kmax, forcing_index_diffusivity)
-    forcing_scalar_light_at_top , forcing_index_light_at_top  = load_forcing.load_forcing(forcing_matrix_light_at_top,current_date,start_date,end_date, kmax, forcing_index_light_at_top)
+    #forcing_scalar_light_at_top , forcing_index_light_at_top  = load_forcing.load_forcing(forcing_matrix_light_at_top,current_date,start_date,end_date, kmax, forcing_index_light_at_top)
+    forcing_scalar_light_at_top                               = load_qsw.load_qsw(forcing_scalar_light_at_top,forcing_matrix_light_at_top,counter)
+    #forcing_scalar_light_at_top = forcing_matrix_light_at_top.iloc[counter].astype(float)
+    #print(forcing_scalar_light_at_top)
     forcing_scalar_bottom_stress, forcing_index_bottom_stress = load_forcing.load_forcing(forcing_matrix_bottom_stress,current_date,start_date,end_date, kmax, forcing_index_bottom_stress)
     
     # light calculation
@@ -224,7 +235,7 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
 
 # coordinates
 
-time  = pd.date_range("2020-01-01", periods=366)
+time  = pd.date_range("2020-01-01", periods=365)
 depth = np.flip(depths)
 
 # variables
