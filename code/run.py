@@ -3,6 +3,12 @@
 # hagen.radtke@io-warnemuende.de
 #----------------------------------------------
 
+### --- AGT
+import xarray as xr
+import pandas as pd
+import load_profiles
+### -------
+
 import datetime as dt
 import numpy as np
 import math
@@ -37,10 +43,30 @@ for i in range(max_output_index):
 
 print('  loading physical forcing')
 
+### --- AGT
+
 #load cell heights
-cellheights = np.loadtxt('physics/cellheights.txt') # cell heights [m]
-depths      = np.cumsum(cellheights) # bottom depths of cells [m]
-kmax        = len(cellheights)             # number of vertical layers
+#cellheights = np.loadtxt('physics/cellheights.txt') # cell heights [m]
+#depths      = np.cumsum(cellheights) # bottom depths of cells [m]
+
+ds           = xr.open_dataset('physics/cmems_station_Utö_2020.nc')
+depths       = ds.depth.values
+cellheights  = np.diff(depths)
+forcing_days = ds.time.values 
+print(type(forcing_days[0]))
+forcing_days = forcing_days - np.datetime64('1899-12-30')
+forcing_days = forcing_days.astype('timedelta64[D]').astype(int)
+print(forcing_days[0])
+
+### -------
+
+#kmax        = len(cellheights) # number of vertical layers
+
+kmax        = 18
+depths = np.squeeze(depths[:kmax])
+cellheights = np.squeeze(cellheights[:kmax])
+
+### -------
 
 #load physics
 def load_matrix(filename):
@@ -56,22 +82,27 @@ def load_vector(filename):
 
 import xarray as xr
 
-#da                           = xr.open_dataarray
-#forcing_matrix_temperature   = da.sel...  # select a point from the NEMO output
+forcing_matrix_temperature   = ds.thetao.values  # select a point from the NEMO output
 
-forcing_matrix_temperature   = load_matrix('physics/temperature.txt')  # temperature [deg_C]
+#forcing_matrix_temperature   = load_matrix('physics/temperature.txt')  # temperature [deg_C]
+
+#forcing_matrix_salinity      = load_matrix('physics/salinity.txt')     # salinity [g/kg]
+
+forcing_matrix_salinity   = ds.so.values
 
 ### -------
 
-forcing_matrix_salinity      = load_matrix('physics/salinity.txt')     # salinity [g/kg]
 forcing_matrix_light_at_top  = load_vector('physics/light_at_top.txt') # downward flux of 
                                                                        # shortwave light at sea surface [W/m2]
 forcing_matrix_bottom_stress = load_vector('physics/bottom_stress.txt')# bottom stress [N/m2]                                                              
 forcing_matrix_opacity_water = load_matrix('physics/opacity_water.txt')# clear-water opacity [1/m]
 forcing_matrix_diffusivity   = load_matrix('physics/diffusivity.txt')  # turbulent vertical diffusivity [m2/s]
 
-forcing_index_temperature = 0
-forcing_index_salinity = 0
+forcing_day_temperature = current_date
+forcing_index_temperature = np.argwhere(forcing_days==current_date)
+forcing_day_salinity    = current_date
+forcing_index_salinity = np.argwhere(forcing_days==current_date)
+
 forcing_index_light_at_top = 0
 forcing_index_bottom_stress = 0
 forcing_index_opacity_water = 0
@@ -111,8 +142,9 @@ print('starting the run');
 # do the timestep
 while current_date < repeated_runs*(end_date-start_date)+start_date:
     # load the physics
-    forcing_vector_temperature  , forcing_index_temperature   = load_forcing.load_forcing(forcing_matrix_temperature,current_date,start_date,end_date, kmax, forcing_index_temperature)
-    forcing_vector_salinity     , forcing_index_salinity      = load_forcing.load_forcing(forcing_matrix_salinity,current_date,start_date,end_date, kmax, forcing_index_salinity)
+    forcing_vector_temperature, forcing_day_temperature , forcing_index_temperature = load_profiles.load_profiles(forcing_matrix_temperature,current_date,forcing_day_temperature,forcing_index_temperature,kmax)
+    #forcing_vector_temperature  , forcing_index_temperature   = load_forcing.load_forcing(forcing_matrix_temperature,current_date,start_date,end_date, kmax, forcing_index_temperature)
+    forcing_vector_salinity   , forcing_day_salinity    , forcing_index_salinity    = load_profiles.load_profiles(forcing_matrix_salinity   ,current_date,forcing_day_salinity   ,forcing_index_salinity   ,kmax)
     forcing_vector_opacity_water, forcing_index_opacity_water = load_forcing.load_forcing(forcing_matrix_opacity_water,current_date,start_date,end_date, kmax, forcing_index_opacity_water)
     forcing_vector_diffusivity  , forcing_index_diffusivity   = load_forcing.load_forcing(forcing_matrix_diffusivity,current_date,start_date,end_date, kmax, forcing_index_diffusivity)
     forcing_scalar_light_at_top , forcing_index_light_at_top  = load_forcing.load_forcing(forcing_matrix_light_at_top,current_date,start_date,end_date, kmax, forcing_index_light_at_top)
@@ -152,7 +184,7 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
     cgt_bio_timestep()
     
     # do the vertical mixing
-    cgt_mixing_timestep()
+    #cgt_mixing_timestep()
     
     # check if output needs to be saved in final array
     if current_date*(1.0+1.0e-10) >= current_output_date + output_interval:
@@ -188,15 +220,12 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
 
 ### --- AGT --- ###
 
-import xarray as xr
-import pandas as pd
-
 # write a limited number of variables to netcdf
 
 # coordinates
 
-time  = pd.date_range("1964-01-01", periods=366)
-depth = np.flip(np.linspace(0,115,116))
+time  = pd.date_range("2020-01-01", periods=366)
+depth = np.flip(depths)
 
 # variables
 

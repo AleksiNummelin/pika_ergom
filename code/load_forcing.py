@@ -40,6 +40,5 @@ def load_forcing( input_matrix, orig_date, start_date, end_date, kmax, old_i_to_
   final_vector=input_matrix[i_to_load,4:min(4+kmax,input_matrix.shape[1])]
   if len(final_vector)==1:
       final_vector=final_vector[0]
-  
   return(final_vector, i_to_load)
 

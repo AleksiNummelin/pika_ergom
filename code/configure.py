@@ -1,18 +1,29 @@
 def configure():
     global start_date    
-    start_date         = (dt.date(1964,1,1) - dt.date(1899,12,30)).days  # start date
+    start_date         = (dt.date(2020,1,1) - dt.date(1899,12,30)).days  # start date
     global end_date
-    end_date           = (dt.date(1965,1,1) - dt.date(1899,12,30)).days  # final date  
+    end_date           = (dt.date(2021,1,1) - dt.date(1899,12,30)).days  # final date  
     global repeated_runs
     repeated_runs      = 1                    # how often the same forcing period is repeated
     global timestep
     timestep           = 1.0/24               # timestep [days]
     global output_interval
     output_interval    = 24.0/24              # output interval [days]
+    
+    ###---AGT
+
+    import xarray as xr
+    import numpy as np
+
+    ds = xr.open_dataset('physics/cmems_station_Utö_2020.nc')
+
     global location_longitude
-    location_longitude = 20.0                 # longitude [deg], for zenith angle calculation
+    location_longitude = ds.longitude.values                 # longitude [deg], for zenith angle calculation
     global location_latitude
-    location_latitude  = 57.33                # latitude  [deg], for zenith angle calculation
+    location_latitude  = ds.latitude.values                # latitude  [deg], for zenith angle calculation
+    
+    ###-------
+
     global location_altitude
     location_altitude  = 0.0                  # altitude [m], for zenith angle calculation
     global density_water

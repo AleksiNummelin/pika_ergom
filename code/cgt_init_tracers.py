@@ -8,16 +8,7 @@ def cgt_init_tracers():
     tracer_vector_t_n2            = np.loadtxt('init/t_n2.txt')
 
     global tracer_vector_t_o2           
-    
-    ### --- AGT
-
-    import xarray as xr
-
-    #tracer_vector_t_o2            = np.loadtxt('init/t_o2.txt')
-    da                             = xr.open_dataarray('t_o2.nc')
-    tracer_vector_t_o2             = da.isel(time=0).values 
-
-    ### -------
+    tracer_vector_t_o2            = np.loadtxt('init/t_o2.txt')
 
     global tracer_vector_t_dic          
     tracer_vector_t_dic           = np.loadtxt('init/t_dic.txt')
@@ -53,16 +44,7 @@ def cgt_init_tracers():
     tracer_vector_t_det           = np.loadtxt('init/t_det.txt')
 
     global tracer_vector_t_lpp          
-    
-    ### --- AGT
-
-    import xarray as xr
-
-    #tracer_vector_t_lpp            = np.loadtxt('init/t_lpp.txt')
-    da                             = xr.open_dataarray('t_lpp_old.nc')
-    tracer_vector_t_lpp             = da.isel(time=0).values
-
-    ### -------
+    tracer_vector_t_lpp           = np.loadtxt('init/t_lpp.txt')
 
     global tracer_vector_t_ipw          
     tracer_vector_t_ipw           = np.loadtxt('init/t_ipw.txt')
