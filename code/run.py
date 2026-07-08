@@ -7,7 +7,9 @@
 import xarray as xr
 import pandas as pd
 import load_profiles
-import load_qsw
+import load_weather
+import physics_methods
+
 ### -------
 
 import datetime as dt
@@ -50,9 +52,20 @@ print('  loading physical forcing')
 #cellheights = np.loadtxt('physics/cellheights.txt') # cell heights [m]
 #depths      = np.cumsum(cellheights) # bottom depths of cells [m]
 
-ds           = xr.open_dataset('physics/cmems_station_Utö_2020.nc')
-depths       = ds.depth.values
-cellheights  = np.diff(depths)
+kmax = 18
+
+ds             = xr.open_dataset('physics/cmems_station_Utö_2020.nc')
+depths         = ds.depth.values
+cellheights    = np.zeros((kmax))
+cellheights[0] = 2*depths[0]
+ch             = np.copy(cellheights[0])
+print(cellheights[0])
+for k in range(1,kmax):
+    print(k)
+    print(ch)
+    cellheights[k] = 2*(depths[k] - ch)
+    ch = depths[k] + 0.5*cellheights[k]
+print(cellheights)
 forcing_days = ds.time.values 
 print(type(forcing_days[0]))
 forcing_days = forcing_days - np.datetime64('1899-12-30')
@@ -63,7 +76,6 @@ print(forcing_days[0])
 
 #kmax        = len(cellheights) # number of vertical layers
 
-kmax        = 18
 depths = np.squeeze(depths[:kmax])
 cellheights = np.squeeze(cellheights[:kmax])
 
@@ -91,11 +103,14 @@ forcing_matrix_temperature   = ds.thetao.values  # select a point from the NEMO 
 
 forcing_matrix_salinity   = ds.so.values
 
+forcing_matrix_mld        = ds.mlotst.values
+
 ### -------
 
 #forcing_matrix_light_at_top  = load_vector('physics/light_at_top.txt') # downward flux of 
                                                                        # shortwave light at sea surface [W/m2]
-forcing_matrix_light_at_top  = pd.read_csv('physics/weather_station_Utö_2020.csv',header=0,usecols=[5])
+forcing_matrix_light_at_top  = pd.read_csv('physics/shortwave_Utö_2020.csv',header=0,usecols=[5])
+forcing_matrix_wind  = pd.read_csv('physics/wind_Utö_2020.csv',header=0,usecols=[5])
 
 print(forcing_matrix_light_at_top)
 
@@ -107,11 +122,15 @@ forcing_day_temperature = current_date
 forcing_index_temperature = np.argwhere(forcing_days==current_date)
 forcing_day_salinity    = current_date
 forcing_index_salinity = np.argwhere(forcing_days==current_date)
+forcing_day_mld    = current_date
+forcing_index_mld = np.argwhere(forcing_days==current_date)
 
 forcing_index_light_at_top = 0
 forcing_index_bottom_stress = 0
 forcing_index_opacity_water = 0
 forcing_index_diffusivity = 0
+
+
 
 print('  loading biological initialization values')
 
@@ -145,22 +164,38 @@ output_count  = 0;
 print('starting the run');
 
 forcing_scalar_light_at_top = 0
-counter = -1
+forcing_scalar_wind         = 0
+counter = -1 # assumes hourly weather input and time step
 # do the timestep
 while current_date < repeated_runs*(end_date-start_date)+start_date:
-    counter = counter + 1
-    # load the physics
+    
+    # Load temperature, salinity and mixed layer depth from hydrodynamic model output
+    # Temperature profile
     forcing_vector_temperature, forcing_day_temperature , forcing_index_temperature = load_profiles.load_profiles(forcing_matrix_temperature,current_date,forcing_day_temperature,forcing_index_temperature,kmax)
-    #forcing_vector_temperature  , forcing_index_temperature   = load_forcing.load_forcing(forcing_matrix_temperature,current_date,start_date,end_date, kmax, forcing_index_temperature)
+    # Salinity profile
     forcing_vector_salinity   , forcing_day_salinity    , forcing_index_salinity    = load_profiles.load_profiles(forcing_matrix_salinity   ,current_date,forcing_day_salinity   ,forcing_index_salinity   ,kmax)
-    forcing_vector_opacity_water, forcing_index_opacity_water = load_forcing.load_forcing(forcing_matrix_opacity_water,current_date,start_date,end_date, kmax, forcing_index_opacity_water)
-    forcing_vector_diffusivity  , forcing_index_diffusivity   = load_forcing.load_forcing(forcing_matrix_diffusivity,current_date,start_date,end_date, kmax, forcing_index_diffusivity)
-    #forcing_scalar_light_at_top , forcing_index_light_at_top  = load_forcing.load_forcing(forcing_matrix_light_at_top,current_date,start_date,end_date, kmax, forcing_index_light_at_top)
-    forcing_scalar_light_at_top                               = load_qsw.load_qsw(forcing_scalar_light_at_top,forcing_matrix_light_at_top,counter)
-    #forcing_scalar_light_at_top = forcing_matrix_light_at_top.iloc[counter].astype(float)
-    #print(forcing_scalar_light_at_top)
+    # Mixed layer depth
+    forcing_scalar_mld, forcing_day_mld , forcing_index_mld                         = load_profiles.load_profiles(forcing_matrix_mld,current_date,forcing_day_mld,forcing_index_mld,kmax)
+    
+    # Load shortwave radiation and wind speed from hourly weather station data, assuming time step is also 1hr
+    counter = counter + 1 # assumes hourly weather input and time step
+    # Shortwave radiation
+    forcing_scalar_light_at_top                               = load_weather.load_weather(forcing_scalar_light_at_top,forcing_matrix_light_at_top,counter)
+    # Remove negative values
+    forcing_scalar_light_at_top                               = np.nanmax(forcing_scalar_light_at_top,0)
+    # Wind speed
+    forcing_scalar_wind                                       = load_weather.load_weather(forcing_scalar_wind,forcing_matrix_wind,counter)
+    
+    # Calculate diffusivity from wind and mixed layer depth, using OpenDrift diffusivity calculation                            #background diffusivity=0
+    forcing_vector_diffusivity = physics_methods.verticaldiffusivity_Large1994(forcing_scalar_wind, depths, forcing_scalar_mld,                         0)
+    #
     forcing_scalar_bottom_stress, forcing_index_bottom_stress = load_forcing.load_forcing(forcing_matrix_bottom_stress,current_date,start_date,end_date, kmax, forcing_index_bottom_stress)
     
+    # Load attenuation coefficient from satellite data?
+    forcing_vector_opacity_water, forcing_index_opacity_water = load_forcing.load_forcing(forcing_matrix_opacity_water,current_date,start_date,end_date, kmax, forcing_index_opacity_water) 
+    #forcing_vector_opacity_water = 0.18
+    #forcing_scalar_opacity, forcing_scalar_opacity , forcing_index_opacity         = load_profiles.load_profiles(forcing_matrix_opacity,current_date,forcing_day_opacity,forcing_index_opacity,kmax)
+
     # light calculation
     zenith = sunpos(dt.datetime(1899, 12, 30) + dt.timedelta(days=current_date),location_latitude,location_longitude,0)[1]
     forcing_scalar_zenith_angle = zenith*np.pi/180
@@ -195,7 +230,7 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
     cgt_bio_timestep()
     
     # do the vertical mixing
-    #cgt_mixing_timestep()
+    cgt_mixing_timestep()
     
     # check if output needs to be saved in final array
     if current_date*(1.0+1.0e-10) >= current_output_date + output_interval:

@@ -9,7 +9,7 @@ def vdiff_explicit( diff, old_field, numerator, denominator, dzt, dt ):
 # dt          = timestep [s]
 # field       = output vector(0:kmax) of final concentration [kg/m3]
 
-    kmt   = len(old_field)
+    kmt   = len(diff)
     field = np.fmax(old_field,0.0)
     diffusivity = np.multiply(np.add(diff[0:(kmt-1)],diff[1:kmt]),0.5)
     distance = np.multiply(np.add(dzt[0:(kmt-1)],dzt[1:kmt]),0.5)
@@ -30,5 +30,5 @@ def vdiff_explicit( diff, old_field, numerator, denominator, dzt, dt ):
     #transport = np.append(np.zeros(1),np.append(transport,np.zeros(1)))
     #transport = np.array([0]+transport.tolist()+[0])          # now it's through upper boundary
     transport_diff = transport_longer[1:(kmt+1)]-transport_longer[0:kmt]
-    field = old_field + transport_diff*dt/dzt
+    field[:kmt] = old_field[:kmt] + transport_diff*dt/dzt
     return(field)

@@ -8,7 +8,7 @@ def vmove_explicit( move, old_field, numerator, denominator, dzt, dt ):
 # dt          = timestep [s]
 # field       = output vector(1:kmax) of final concentration [kg/m3]
 
-    kmt   = len(old_field)              # number of vertical levels
+    kmt   = len(dzt)              # number of vertical levels
     field = old_field                   # output vector
     
     ft1  = 0.0                          # upward tracer flux through the upper boundary of the cell [mol*m/kg/s]
