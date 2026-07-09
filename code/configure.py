@@ -1,6 +1,6 @@
 def configure():
     global run_id
-    run_id             = 'slow-sink'
+    run_id             = 'ctrl'
     global start_date    
     start_date         = (dt.date(2020,1,1) - dt.date(1899,12,30)).days  # start date
     global end_date

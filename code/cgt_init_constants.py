@@ -161,7 +161,7 @@ def cgt_init_constants():
     global w_cya           # vertical speed of diazotroph cyanobacteria [m/day]
     w_cya           = 1.0      
     global w_det           # vertical speed of detritus [m/day]
-    w_det           = -0.5 # change -4.5 to -0.5    
+    w_det           = -4.5  
     global w_ipw           # vertical speed of suspended iron PO4 [m/day]
     w_ipw           = -1.0     
     global w_det_sedi      # sedimentation velocity (negative for downward) [m/day]
