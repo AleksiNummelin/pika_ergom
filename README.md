@@ -1,6 +1,6 @@
 To run: 
 
-python code/run.py
+**python code/run.py**
 
 This generates netcdf files as outputs.  To plot stuff quickly, go to the file code/comp_cmems.py and choose the parameters
 
@@ -16,7 +16,7 @@ ALSO make sure the variable name matches on the line below!
 
 And then 
 
-python code/comp_cmems.py
+**python code/comp_cmems.py**
 
 will generate time series comparing pika-ergom with cmems reanalysis for the given variable and depth.
 
