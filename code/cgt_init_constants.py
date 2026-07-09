@@ -161,7 +161,7 @@ def cgt_init_constants():
     global w_cya           # vertical speed of diazotroph cyanobacteria [m/day]
     w_cya           = 1.0      
     global w_det           # vertical speed of detritus [m/day]
-    w_det           = -4.5 ### --- AGT change from -4.5 to -0.0    
+    w_det           = -0.5 # change -4.5 to -0.5    
     global w_ipw           # vertical speed of suspended iron PO4 [m/day]
     w_ipw           = -1.0     
     global w_det_sedi      # sedimentation velocity (negative for downward) [m/day]
@@ -231,11 +231,11 @@ def cgt_init_constants():
     global r_dop2pocp      # POCP formation rate
     r_dop2pocp      = 0.01     
     global r_doc_rec       # recycling rate (doc to dic) at 0°C [1/day]
-    r_doc_rec       = 0.001 ### --- AGT: changed from 0.001 to 0.1   
+    r_doc_rec       = 0.001 
     global r_don_rec       # recycling rate (don to dic and NH4) at 0°C [1/day]
-    r_don_rec       = 0.001 ### --- AGT: changed from 0.001 to 0.1   
+    r_don_rec       = 0.001 
     global r_dop_rec       # recycling rate (dop to dic and PO4) at 0°C [1/day]
-    r_dop_rec       = 0.001 ### --- AGT: changed from 0.001 to 0.1
+    r_dop_rec       = 0.001 
     global fac_ips_burial  # reduced burial of t_ips, mimicing resolving iron-P complexes in deeper sediment and subsequent upward PO4 flux
     fac_ips_burial  = 0.5      
     global r_cdom_decay    # decay rate of cdom

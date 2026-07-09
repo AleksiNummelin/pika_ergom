@@ -3,24 +3,36 @@ def cgt_init_tracers():
     # load initial values for tracers
     #--------------------------------
 
+    ###---AGT
+
+    # read in some initial conditions from reanalysis:
+
+    import xarray as xr
+    ds = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc')
+    print(ds)
+
+    global tracer_vector_t_o2
+    tracer_vector_t_o2            = ds.o2.isel(time=0).values
+    tracer_vector_t_o2            = np.squeeze(tracer_vector_t_o2)*1e-6
+
+    global tracer_vector_t_no3
+    tracer_vector_t_no3            = ds.no3.isel(time=0).values
+    tracer_vector_t_no3            = np.squeeze(tracer_vector_t_no3)*1e-6
+
+    global tracer_vector_t_po4
+    tracer_vector_t_po4            = ds.po4.isel(time=0).values
+    tracer_vector_t_po4            = np.squeeze(tracer_vector_t_po4)*1e-6
+
+    global tracer_vector_t_nh4
+    tracer_vector_t_nh4            = ds.nh4.isel(time=0).values
+    tracer_vector_t_nh4            = np.squeeze(tracer_vector_t_nh4)*1e-6
+
     # some need to be loaded from files
     global tracer_vector_t_n2           
     tracer_vector_t_n2            = np.loadtxt('init/t_n2.txt')
 
-    global tracer_vector_t_o2           
-    tracer_vector_t_o2            = np.loadtxt('init/t_o2.txt')
-
     global tracer_vector_t_dic          
     tracer_vector_t_dic           = np.loadtxt('init/t_dic.txt')
-
-    global tracer_vector_t_nh4          
-    tracer_vector_t_nh4           = np.loadtxt('init/t_nh4.txt')
-
-    global tracer_vector_t_no3          
-    tracer_vector_t_no3           = np.loadtxt('init/t_no3.txt')
-
-    global tracer_vector_t_po4          
-    tracer_vector_t_po4           = np.loadtxt('init/t_po4.txt')
 
     global tracer_vector_t_spp          
     tracer_vector_t_spp           = np.loadtxt('init/t_spp.txt')

@@ -271,23 +271,39 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
 # coordinates
 
 time  = pd.date_range("2020-01-01", periods=365)
-depth = np.flip(depths)
+depth = depths
 
 # variables
 
-output_t_o2 = np.transpose(output_t_o2)
-da = xr.DataArray(data=output_t_o2,dims=["depth","time"],coords=dict(depth=depth,time=time),attrs=dict(units="mol kg⁻¹",),)
-da.to_netcdf('t_o2.nc')
+output_t_o2 = output_t_o2*1e6
+da = xr.DataArray(data=output_t_o2,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol mol⁻³",),)
+da.to_netcdf('{}_o2.nc'.format(run_id))
 
-output_t_lpp = np.transpose(output_t_lpp)
-da = xr.DataArray(data=output_t_lpp,dims=["depth","time"],coords=dict(depth=depth,time=time),attrs=dict(units="mol kg⁻¹",),)
-da.to_netcdf('t_lpp.nc')
+output_t_po4 = output_t_po4*1e6
+da = xr.DataArray(data=output_t_po4,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol mol⁻³",),)
+da.to_netcdf('{}_po4.nc'.format(run_id))
 
-output_t_spp = np.transpose(output_t_spp)
-da = xr.DataArray(data=output_t_spp,dims=["depth","time"],coords=dict(depth=depth,time=time),attrs=dict(units="mol kg⁻¹",),)
-da.to_netcdf('t_spp.nc')
+output_t_no3 = output_t_no3*1e6
+da = xr.DataArray(data=output_t_no3,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol mol⁻³",),)
+da.to_netcdf('{}_no3.nc'.format(run_id))
 
-output_t_cya = np.transpose(output_t_cya)
-da = xr.DataArray(data=output_t_cya,dims=["depth","time"],coords=dict(depth=depth,time=time),attrs=dict(units="mol kg⁻¹",),)
-da.to_netcdf('t_cya.nc')
+output_t_nh4 = output_t_nh4*1e6
+da = xr.DataArray(data=output_t_nh4,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol mol⁻³",),)
+da.to_netcdf('{}_nh4.nc'.format(run_id))
+
+output_t_lpp = output_t_lpp
+da = xr.DataArray(data=output_t_lpp,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
+da.to_netcdf('{}_lpp.nc'.format(run_id))
+
+output_t_spp = output_t_spp
+da = xr.DataArray(data=output_t_spp,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
+da.to_netcdf('{}_spp.nc'.format(run_id))
+
+output_t_cya = output_t_cya
+da = xr.DataArray(data=output_t_cya,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
+da.to_netcdf('{}_cya.nc'.format(run_id))
+
+output_t_chl = 2e6*(output_t_spp + output_t_lpp + output_t_cya)
+da = xr.DataArray(data=output_t_chl,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mg m⁻³",),)
+da.to_netcdf('{}_chl.nc'.format(run_id))
 
