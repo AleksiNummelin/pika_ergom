@@ -3,7 +3,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-run_id =                                                                                   ['ctrl'],# names of pika-ergom iterations     
+run_id =                                                                                   ['ctrl']#, names of pika-ergom iterations     
                                                                                            # 'slow-sink']
 dpt    =                                                                                    20  # depth
 units  =                                                                                  'mmol m⁻³' # units
