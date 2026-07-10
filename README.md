@@ -45,8 +45,6 @@ dpt    =                                                                        
 units  =                                                                                      [] # units
 
 var    =                                                                                      [] # variable
-
-                                                                                                  #^^
                                                                                                   
 ds    = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc').sel(depth=dpt,method='nearest').[] # variable
        
