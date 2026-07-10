@@ -1,6 +1,17 @@
+import xarray as xr
+import numpy as np
+
 def configure():
     global run_id
     run_id             = 'ctrl'
+    global bgc_input_file
+    bgc_input_file     = 'init/cmems_station_Utö_bgc_2020.nc'
+    global oce_phys_file
+    oce_phys_file    = 'physics/cmems_station_Utö_2020.nc'
+    global wind_file
+    wind_file          = 'physics/wind_Utö_2020.csv'
+    global solar_file
+    solar_file         = 'physics/shortwave_Utö_2020.csv'
     global start_date    
     start_date         = (dt.date(2020,1,1) - dt.date(1899,12,30)).days  # start date
     global end_date
@@ -12,12 +23,8 @@ def configure():
     global output_interval
     output_interval    = 24.0/24              # output interval [days]
     
-    ###---AGT
-
-    import xarray as xr
-    import numpy as np
-
-    ds = xr.open_dataset('physics/cmems_station_Utö_2020.nc')
+    # read in coordinates
+    ds = xr.open_dataset(oce_phys_file)
 
     global location_longitude
     location_longitude = ds.longitude.values                 # longitude [deg], for zenith angle calculation
