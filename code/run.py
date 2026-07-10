@@ -33,6 +33,9 @@ exec(open('myplot.py').read(),globals())
 
 print('initialization')
 
+with open(configure.py, 'r') as f:
+    print(f.read())
+
 #load timestep, initial date etc.
 configure()
 
@@ -207,8 +210,6 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
     
     # check if output needs to be saved in final array
     if current_date*(1.0+1.0e-10) >= current_output_date + output_interval:
-        # display current date/time
-        print(dt.date(1899,12,30)+dt.timedelta(days=current_date))
         # do the output of physics
         output_temperature[current_output_index,:] = output_vector_temperature /output_count
         output_salinity[current_output_index,:]    = output_vector_salinity    /output_count
@@ -244,43 +245,53 @@ time  = pd.date_range("2020-01-01", periods=365)
 # Depth axis
 depth = depths
 
+print('Output files:')
+
 # Dissolved oxygen (mmol m⁻³)
 output_t_o2 = output_t_o2*1e6
 da = xr.DataArray(data=output_t_o2,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
 da.to_netcdf('{}_o2.nc'.format(run_id))
+print('{}_o2.nc'.format(run_id))
 
 # Phosphate (mmol m⁻³)
 output_t_po4 = output_t_po4*1e6
 da = xr.DataArray(data=output_t_po4,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
 da.to_netcdf('{}_po4.nc'.format(run_id))
+print('{}_po4.nc'.format(run_id))
 
 # Nitrate (mmol m⁻³)
 output_t_no3 = output_t_no3*1e6
 da = xr.DataArray(data=output_t_no3,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
 da.to_netcdf('{}_no3.nc'.format(run_id))
+print('{}_no3.nc'.format(run_id))
 
 # Ammonium (mmol m⁻³)
 output_t_nh4 = output_t_nh4*1e6
 da = xr.DataArray(data=output_t_nh4,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
 da.to_netcdf('{}_nh4.nc'.format(run_id))
+print('{}_nh4.nc'.format(run_id))
 
 # Large phytoplankton (mol kg⁻¹)
 output_t_lpp = output_t_lpp
 da = xr.DataArray(data=output_t_lpp,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
 da.to_netcdf('{}_lpp.nc'.format(run_id))
+print('{}_lpp.nc'.format(run_id))
 
 # Small phytoplankton (mol kg⁻¹)
 output_t_spp = output_t_spp
 da = xr.DataArray(data=output_t_spp,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
 da.to_netcdf('{}_spp.nc'.format(run_id))
+print('{}_spp.nc'.format(run_id))
 
 # Cyanobacteria (mol kg⁻¹)
 output_t_cya = output_t_cya
 da = xr.DataArray(data=output_t_cya,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
 da.to_netcdf('{}_cya.nc'.format(run_id))
+print('{}_cya.nc'.format(run_id))
 
 # Chlorophyll-a (mg m⁻³)
 output_t_chl = 2e6*(output_t_spp + output_t_lpp + output_t_cya)
 da = xr.DataArray(data=output_t_chl,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mg m⁻³",),)
+print('{}_chl.nc'.format(run_id))
 da.to_netcdf('{}_chl.nc'.format(run_id))
 
