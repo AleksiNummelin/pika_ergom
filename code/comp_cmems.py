@@ -10,6 +10,7 @@ var    =                                                                        
                                                                                              #^^   !!! Check that variable names match !!!
 ds    = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc').sel(depth=dpt,method='nearest').nh4  # variable
 cmems = np.squeeze(ds.values)
+times = ds.time.values
 
 plt.figure()
 
@@ -19,12 +20,15 @@ for name in run_id:
     pika       = np.squeeze(ds.values)
     # note actual depth from file
     real_depth = ds.depth.values
+    # read time axis
+    pika_time  = ds.time.values
     # plot iteration as time series
-    plt.plot(pika,label='pika-ergom_{}'.format(name))
+    plt.plot(pika_time,pika,label='pika-ergom_{}'.format(name))
 
 # plot reanalysis as reference
-plt.plot(cmems,label='cmems-reanalysis')
+plt.plot(times,cmems,label='cmems-reanalysis')
 plt.ylabel('{}, {}'.format(var,units))
 plt.title('Depth = {0:.1f}m'.format(real_depth))
+plt.grid()
 plt.legend()
 plt.show()
