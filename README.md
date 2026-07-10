@@ -2,7 +2,7 @@
 
 # --- Why pika-ERGOM? --- #
 
-
+Running a coupled hydrodynamic-biogeochemical model typically takes many times longer than running the hydrodynamics alone; hence several days or weeks of computer time are required for each model iteration.  In addition, biogeochemical models tyically contain a large number of poorly-constrained parameters.  A standalone (water-column) biogeochemical model such as **pika-ERGOM** can be used to understand biogeochemical processes and build intuition on how biogeochemical processes, but also to narrow down the parameter-space to be explored with the full 3D coupled model.  On an ordinary laptop, simulates one year (at a timestep of one hour) within less than a minute.   
 
 # --- What is in this repository? --- #
 
