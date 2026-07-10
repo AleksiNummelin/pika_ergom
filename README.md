@@ -30,9 +30,9 @@ Currently (10.07.2026), bottom stress and background water opacity are still rea
 
 # --- Instructions for use --- #
 
-Once you have cloned this repository, no futher preparation steps are needed to make your first **pika-ERGOM** run.  Simply execute
+Once you have cloned this repository, no futher preparation steps are needed to make your first **pika-ERGOM** run.  Simply go to the code directory and execute
 
-**python code/run.py**
+**python run.py**
 
 and the model will run an iteration with the run_id "_ctrl_"
 
@@ -52,7 +52,7 @@ Make sure the variable name matches on both lines!
 
 And then 
 
-**python code/comp_cmems.py**
+**python comp_cmems.py**
 
 will generate time series comparing pika-ergom with the BALMFC Biogeochemistry reanalysis for the given variable and depth.
 
