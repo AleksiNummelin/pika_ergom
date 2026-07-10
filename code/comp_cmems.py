@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 run_id =                                                                                   ['ctrl']#, names of pika-ergom iterations     
-dpt    =                                                                                       20  # depth
+dpt    =                                                                                        0  # depth
 units  =                                                                                'mmol m⁻³' # units
-var    =                                                                                     'nh4' # variable
+var    =                                                                                     'chl' # variable
                                                                                              #^^   !!! Check that variable names match !!!
 ds    = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc').sel(depth=dpt,method='nearest').nh4  # variable
 cmems = np.squeeze(ds.values)
