@@ -38,15 +38,15 @@ and the model will run an iteration with the run_id "_ctrl_"
 
 This generates netcdf files as outputs.  To plot stuff quickly, go to the file code/comp_cmems.py and choose the parameters
 
-run_id =                                                                                      [] # names of pika-ergom iterations     
+  run_id =                                                                                      [] # names of pika-ergom iterations     
                                                                                            
-dpt    =                                                                                      [] # depth
+  dpt    =                                                                                      [] # depth
 
-units  =                                                                                      [] # units
+  units  =                                                                                      [] # units
 
-var    =                                                                                      [] # variable
+  var    =                                                                                      [] # variable
                                                                                                   #^^
-ds    = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc').sel(depth=dpt,method='nearest').[] # variable
+  ds    = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc').sel(depth=dpt,method='nearest').[] # variable
        
 Make sure the variable name matches on both lines!
 
