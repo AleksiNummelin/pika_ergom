@@ -3,15 +3,16 @@
 # hagen.radtke@io-warnemuende.de
 #----------------------------------------------
 
-### --- AGT
+#~~~~~~~~~pika-ERGOM~~~~~~~~~~
+# pika-ERGOM developed further at the Finnish Meteorological Institute
+# andrew.twelves@fmi.fi
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 import xarray as xr
 import pandas as pd
 import load_profiles
 import load_weather
 import physics_methods
-
-### -------
-
 import datetime as dt
 import numpy as np
 import math
@@ -46,40 +47,24 @@ for i in range(max_output_index):
 
 print('  loading physical forcing')
 
-### --- AGT
-
-#load cell heights
-#cellheights = np.loadtxt('physics/cellheights.txt') # cell heights [m]
-#depths      = np.cumsum(cellheights) # bottom depths of cells [m]
-
+# Specify number of vertical levels
 kmax = 18
 
-ds             = xr.open_dataset('physics/cmems_station_Utö_2020.nc')
+# open file for ocean physics
+ds             = xr.open_dataset(oce_phys_file)
 depths         = ds.depth.values
+# calculate cell heights from depths
 cellheights    = np.zeros((kmax))
 cellheights[0] = 2*depths[0]
 ch             = np.copy(cellheights[0])
-print(cellheights[0])
 for k in range(1,kmax):
-    print(k)
-    print(ch)
     cellheights[k] = 2*(depths[k] - ch)
     ch = depths[k] + 0.5*cellheights[k]
-print(cellheights)
 forcing_days = ds.time.values 
-print(type(forcing_days[0]))
 forcing_days = forcing_days - np.datetime64('1899-12-30')
 forcing_days = forcing_days.astype('timedelta64[D]').astype(int)
-print(forcing_days[0])
-
-### -------
-
-#kmax        = len(cellheights) # number of vertical layers
-
 depths = np.squeeze(depths[:kmax])
 cellheights = np.squeeze(cellheights[:kmax])
-
-### -------
 
 #load physics
 def load_matrix(filename):
@@ -91,32 +76,22 @@ def load_matrix(filename):
 def load_vector(filename):
     return(np.loadtxt(filename,usecols=range(5),comments='%'))
 
-### --- AGT
-
-import xarray as xr
-
-forcing_matrix_temperature   = ds.thetao.values  # select a point from the NEMO output
-
-#forcing_matrix_temperature   = load_matrix('physics/temperature.txt')  # temperature [deg_C]
-
-#forcing_matrix_salinity      = load_matrix('physics/salinity.txt')     # salinity [g/kg]
-
+# Temperature profile [deg. C]
+forcing_matrix_temperature   = ds.thetao.values 
+# Salinity profile [psu]
 forcing_matrix_salinity   = ds.so.values
-
+# Mixed layer depth [m]
 forcing_matrix_mld        = ds.mlotst.values
 
-### -------
+# Downward flux of shortwave light at sea surface [W/m2]
+forcing_matrix_light_at_top  = pd.read_csv(solar_file,header=0,usecols=[5])
+# Wind speed [m/s]
+forcing_matrix_wind  = pd.read_csv(wind_file,header=0,usecols=[5])
 
-#forcing_matrix_light_at_top  = load_vector('physics/light_at_top.txt') # downward flux of 
-                                                                       # shortwave light at sea surface [W/m2]
-forcing_matrix_light_at_top  = pd.read_csv('physics/shortwave_Utö_2020.csv',header=0,usecols=[5])
-forcing_matrix_wind  = pd.read_csv('physics/wind_Utö_2020.csv',header=0,usecols=[5])
-
-print(forcing_matrix_light_at_top)
-
-forcing_matrix_bottom_stress = load_vector('physics/bottom_stress.txt')# bottom stress [N/m2]                                                              
-forcing_matrix_opacity_water = load_matrix('physics/opacity_water.txt')# clear-water opacity [1/m]
-forcing_matrix_diffusivity   = load_matrix('physics/diffusivity.txt')  # turbulent vertical diffusivity [m2/s]
+# Bottom stress [N/m2]
+forcing_matrix_bottom_stress = load_vector('physics/bottom_stress.txt')
+# Clear-water opacity [1/m]
+forcing_matrix_opacity_water = load_matrix('physics/opacity_water.txt')
 
 forcing_day_temperature = current_date
 forcing_index_temperature = np.argwhere(forcing_days==current_date)
@@ -129,8 +104,6 @@ forcing_index_light_at_top = 0
 forcing_index_bottom_stress = 0
 forcing_index_opacity_water = 0
 forcing_index_diffusivity = 0
-
-
 
 print('  loading biological initialization values')
 
