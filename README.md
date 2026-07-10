@@ -24,7 +24,7 @@ The original Python implementation of ERGOM simulated a single year using textfi
 
 In the original standalone version of ERGOM, diffusivity is read off from a text file as forcing.  In **pika-ERGOM**, diffusivity is instead calculated on-the-fly at each timestep from the wind speed and mixed layer inputs, using the vertical diffusivity calculator built for the Lagrangian modelling framework OpenDrift (https://github.com/OpenDrift/opendrift/tree/master/opendrift/models).  By default, **pika-ERGOM** uses the Large et al. (1994) parameterization of vertical diffusivity (https://doi.org/10.1029/94RG01872).
 
-For oxygen, nitrate, phosphate and ammonium, initial conditions are taken from the BALMFC Biogeochemical Reanalysis (https://doi.org/10.48670/moi-00012).  Note that units for these variables are converted from mmol m⁻³ to mol kg⁻¹ for use in **pika-ERGOM**, and then are converted back to mmol m⁻³ when they are produced from **pika-ERGOM** as outputs.
+For oxygen, nitrate, phosphate and ammonium, initial conditions are taken from the BALMFC Biogeochemistry Reanalysis (https://doi.org/10.48670/moi-00012).  Note that units for these variables are converted from mmol m⁻³ to mol kg⁻¹ for use in **pika-ERGOM**, and then are converted back to mmol m⁻³ when they are produced from **pika-ERGOM** as outputs.
 
 Currently (10.07.2026), bottom stress and background water opacity are still read from the original text files, as are initial conditions for nitrogen, dissolved inorganic carbon, phytoplankton, zooplankton, hydrogen sulpihde, total alkalinity, detritus and sediment variables.  
 
@@ -38,15 +38,15 @@ and the model will run an iteration with the run_id "_ctrl_"
 
 This generates netcdf files as outputs.  To plot stuff quickly, go to the file code/comp_cmems.py and choose the parameters
 
-run_id =  [] # names of pika-ergom iterations
+run_id =                                                                                      [] # names of pika-ergom iterations     
+                                                                                           
+dpt    =                                                                                      [] # depth
 
-dpt    =  [] # depth 
+units  =                                                                                      [] # units
 
-units  =  [] # units
-
-var    =  [] # variable
-
-       .[]   # variables
+var    =                                                                                      [] # variable
+                                                                                                  #^^
+ds    = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc').sel(depth=dpt,method='nearest').[] # variable
        
 Make sure the variable name matches on both lines!
 
@@ -54,7 +54,7 @@ And then
 
 **python code/comp_cmems.py**
 
-will generate time series comparing pika-ergom with cmems reanalysis for the given variable and depth.
+will generate time series comparing pika-ergom with the BALMFC Biogeochemistry reanalysis for the given variable and depth.
 
 To make a new pika-ergom run with different parameter choices:
 
