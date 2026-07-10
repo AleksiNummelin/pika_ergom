@@ -3,16 +3,13 @@ def cgt_init_tracers():
     # load initial values for tracers
     #--------------------------------
 
+    ###---AGT
+
+    # read in some initial conditions from reanalysis:
+
     import xarray as xr
-    
-    # This routine reads ininitial conditions for biogeochemical tracers
-
-    # Oxygen, nitrate, phosphate and ammonium initial conditions are read in from netcdf files (extracted from reanalysis output).
-    # Note that units are converted from mmol m⁻³ to mol kg⁻¹
-    # Note also that code assumes initial condition is first record in file
-
-    # Here specify file to be read in
-    ds = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc')
+    ds = xr.open_dataset(bgc_input_file)
+    print(ds)
 
     global tracer_vector_t_o2
     tracer_vector_t_o2            = ds.o2.isel(time=0).values
@@ -30,8 +27,7 @@ def cgt_init_tracers():
     tracer_vector_t_nh4            = ds.nh4.isel(time=0).values
     tracer_vector_t_nh4            = np.squeeze(tracer_vector_t_nh4)*1e-6
 
-    # Most of the other tracers are read in from text files...
-    
+    # some need to be loaded from files
     global tracer_vector_t_n2           
     tracer_vector_t_n2            = np.loadtxt('init/t_n2.txt')
 
@@ -80,8 +76,8 @@ def cgt_init_tracers():
     global tracer_scalar_t_sed_pocp     
     tracer_scalar_t_sed_pocp      = float(np.loadtxt('init/t_sed_pocp.txt'))
 
-    # .. while some others are initialized as constants
-    
+
+    # others are initialized as constant
     global tracer_vector_t_sul          
     tracer_vector_t_sul           = np.full(kmax,0.0)
     global tracer_vector_t_doc          
@@ -100,7 +96,6 @@ def cgt_init_tracers():
     tracer_vector_t_pocn          = np.full(kmax,0.0)
 
     # some tracers have vertical movement
-    
     global vertical_speed_of_t_cya          
     vertical_speed_of_t_cya           = np.zeros(kmax)
     global vertical_diffusivity_of_t_cya          
