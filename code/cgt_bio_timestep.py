@@ -2858,4 +2858,84 @@ def cgt_bio_timestep():
     # vertical movement follows
     #---------------------------------------
     
+    # calculate new total marked element concentrations
+    for k in range(kmax):
+        cgt_dummyvar = 0.0
+     
+    
+    # vertical movement of tracers
+    for m in range(num_vmove_steps):
+        # first, move the age concentration of marked elements
+        # second, move the tracers (including marked tracers) themselves
+        tracer_vector_t_cya           = vmove_explicit(vertical_speed_of_t_cya          , 
+                                   tracer_vector_t_cya          , 
+                                   tracer_vector_t_cya          , tracer_vector_t_cya          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_det           = vmove_explicit(vertical_speed_of_t_det          , 
+                                   tracer_vector_t_det          , 
+                                   tracer_vector_t_det          , tracer_vector_t_det          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_poc           = vmove_explicit(vertical_speed_of_t_poc          , 
+                                   tracer_vector_t_poc          , 
+                                   tracer_vector_t_poc          , tracer_vector_t_poc          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_pocp          = vmove_explicit(vertical_speed_of_t_pocp         , 
+                                   tracer_vector_t_pocp         , 
+                                   tracer_vector_t_pocp         , tracer_vector_t_pocp         , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_pocn          = vmove_explicit(vertical_speed_of_t_pocn         , 
+                                   tracer_vector_t_pocn         , 
+                                   tracer_vector_t_pocn         , tracer_vector_t_pocn         , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_lpp           = vmove_explicit(vertical_speed_of_t_lpp          , 
+                                   tracer_vector_t_lpp          , 
+                                   tracer_vector_t_lpp          , tracer_vector_t_lpp          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_ipw           = vmove_explicit(vertical_speed_of_t_ipw          , 
+                                   tracer_vector_t_ipw          , 
+                                   tracer_vector_t_ipw          , tracer_vector_t_ipw          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        # third, calculate new total marked element concentrations
+        for k  in range(kmax):
+            cgt_dummyvar = 0.0
+        
+     
+    # vertical diffusion of tracers
+    for m in range(num_vmove_steps):
+        # first, diffuse the age concentration of marked elements
+        # second, diffuse the tracers (including marked tracers) themselves
+        tracer_vector_t_cya           = vdiff_explicit(vertical_diffusivity_of_t_cya          , 
+                                   tracer_vector_t_cya          , 
+                                   tracer_vector_t_cya          , tracer_vector_t_cya          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_det           = vdiff_explicit(vertical_diffusivity_of_t_det          , 
+                                   tracer_vector_t_det          , 
+                                   tracer_vector_t_det          , tracer_vector_t_det          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_poc           = vdiff_explicit(vertical_diffusivity_of_t_poc          , 
+                                   tracer_vector_t_poc          , 
+                                   tracer_vector_t_poc          , tracer_vector_t_poc          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_pocp          = vdiff_explicit(vertical_diffusivity_of_t_pocp         , 
+                                   tracer_vector_t_pocp         , 
+                                   tracer_vector_t_pocp         , tracer_vector_t_pocp         , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_pocn          = vdiff_explicit(vertical_diffusivity_of_t_pocn         , 
+                                   tracer_vector_t_pocn         , 
+                                   tracer_vector_t_pocn         , tracer_vector_t_pocn         , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_lpp           = vdiff_explicit(vertical_diffusivity_of_t_lpp          , 
+                                   tracer_vector_t_lpp          , 
+                                   tracer_vector_t_lpp          , tracer_vector_t_lpp          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        tracer_vector_t_ipw           = vdiff_explicit(vertical_diffusivity_of_t_ipw          , 
+                                   tracer_vector_t_ipw          , 
+                                   tracer_vector_t_ipw          , tracer_vector_t_ipw          , 
+                                   cellheights, timestep/num_vmove_steps*(24*3600)) 
+        # third, calculate new total marked element concentrations
+        for k  in range(kmax):
+            cgt_dummyvar = 0.0
+        
+     
+
     # calculate total colored element concentrations at bottom
