@@ -31,9 +31,11 @@ exec(open('cgt_mixing_timestep.py').read(),globals())
 exec(open('configure.py').read(),globals())
 exec(open('myplot.py').read(),globals())
 
+print('~~~~~~~~~~pika-ERGOM~~~~~~~~~')
+
 print('initialization')
 
-with open(configure.py, 'r') as f:
+with open('configure.py', 'r') as f:
     print(f.read())
 
 #load timestep, initial date etc.
