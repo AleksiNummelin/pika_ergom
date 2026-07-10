@@ -30,7 +30,7 @@ Currently (10.07.2026), bottom stress and background water opacity are still rea
 
 # --- Instructions for use --- #
 
-Once you have cloned this repository, no futher preparation steps are needed to run **pika-ERGOM**.  Simply execute
+Once you have cloned this repository, no futher preparation steps are needed to make your first **pika-ERGOM** run.  Simply execute
 
 **python code/run.py**
 
