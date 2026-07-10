@@ -8,7 +8,7 @@ dpt    =                                                                        
 units  =                                                                                'mmol m⁻³' # units
 var    =                                                                                     'chl' # variable
                                                                                              #^^   !!! Check that variable names match !!!
-ds    = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc').sel(depth=dpt,method='nearest').nh4  # variable
+ds    = xr.open_dataset('init/cmems_station_Utö_bgc_2020.nc').sel(depth=dpt,method='nearest').chl  # variable
 cmems = np.squeeze(ds.values)
 times = ds.time.values
 
