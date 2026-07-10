@@ -2,6 +2,8 @@
 
 # --- Why pika-ERGOM? --- #
 
+ss
+
 # --- What is in this repository? --- #
 
 This repository contains a modified version of the standalone Python-based application of the Ecological ReGional Ocean Model ERGOM.  The original Python code (and code templates) can be found at https://git.iow.de/ERGOM/Templates/src/branch/kpar-cdom/1d_python.  So far (10.07.2026) only the code itself has been edited at FMI, and thus the code templates are out of date and shouldn't be used.
