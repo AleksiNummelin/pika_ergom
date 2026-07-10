@@ -2,13 +2,19 @@
 
 # --- What is in this repository? --- #
 
-This repository contains a modified version of the standalone Python-based application of the Ecological ReGional Ocean Model (ERGOM).  The original Python code (and code templates) can be found at https://git.iow.de/ERGOM/Templates/src/branch/kpar-cdom/1d_python.  So far (10.07.2026) only the code itself has been edited at FMI, and thus the code templates are out of date and shouldn't be used.
+This repository contains a modified version of the standalone Python-based application of the Ecological ReGional Ocean Model ERGOM.  The original Python code (and code templates) can be found at https://git.iow.de/ERGOM/Templates/src/branch/kpar-cdom/1d_python.  So far (10.07.2026) only the code itself has been edited at FMI, and thus the code templates are out of date and shouldn't be used.
 
 Inside the _code_ directory there are two further sub-directories, _init_ and _physics_, providing initial biogeochemical conditions and physical forcing respectively.  The textfiles contained within were obtained from Hagen Radtke at the Leibniz Institute for Baltic Sea Research (IOW), and were used for initial testing.  Subsewuently, the initial conditions and forcing have been updated at FMI.
 
-# --- What is ERGOM --- #
+# --- What is ERGOM? --- #
 
-The Ecological ReGional Ocean Model (ERGOM, https://ergom.net/) was developed at IOW in order to model biogeochemical cycles in the Baltic Sea.  It has most often been used online coupled to the Modular Ocean Model (MOM), but has also been coupled to various other hydrodynamic models 
+The Ecological ReGional Ocean Model (ERGOM, https://ergom.net/) was developed at IOW in order to model biogeochemical cycles in the Baltic Sea.  It has most often been used online coupled to the Modular Ocean Model (MOM), but has also been coupled to various other hydrodynamic models, including via the Framework for Aquatic Biogeochemical Models (FABM, https://github.com/fabm-model/fabm).  As part of the Baltic Sea Monitoring Forecasting Centre (BALMFC, https://marine.copernicus.eu/about/producers/bal-mfc), ERGOM is coupled, via FABM to the Nucleus for European Modelling of the Ocean (NEMO, https://forge.nemo-ocean.eu/nemo).  NEMO-Ergom is also being developed further (https://github.com/atwelves/ERGOM) for application to the Gulf of Finland as part of the Coastal Waters under Pressure (CoWup, ) project
+
+
+
+# --- What is pika-ERGOM? --- #
+
+# --- Instructions for use --- #
 
 **python code/run.py**
 
