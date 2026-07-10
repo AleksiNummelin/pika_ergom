@@ -22,7 +22,7 @@ ERGOM is not in general distrubuted as a traditional code base.  Instead the ERG
 
 The original Python implementation of ERGOM simulated a single year using textfiles as inputs and forcing.  In **pika-ERGOM** the code has been updated so that it can also read and write netCDF files.  Currently it is set up to read hourly temperature and salinity profiles from a netCDF file extracted from the BALMFC Physics Reanalysis (https://data.marine.copernicus.eu/product/BALTICSEA_MULTIYEAR_PHY_003_011/description).  Hourly mixed layer depth is also read in from this same reanalysis file, while hourly data for solar radiation and wind speed are read from a csv file, with the data obtained from Utö weather station via the FMI open-data portal (https://en.ilmatieteenlaitos.fi/open-data).  
 
-In the original standalone version of ERGOM, diffusivity is read off from a text file as forcing
+In the original standalone version of ERGOM, diffusivity is read off from a text file as forcing.  In **pika-ERGOM**, diffusivity is instead calculated on-the-fly at each timestep from the wind speed and mixed layer inputs, using the vertical diffusivity calculator built for the Lagrangian modelling framework OpenDrift (https://github.com/OpenDrift/opendrift/tree/master/opendrift/models).  By default, **pika-ERGOM** uses the Large et al. (1994) parameterization of vertical diffusivity (doi/abs/10.1029/94rg01872)
 
 Currently (10.07.2026), bottom stress and background water opacity are still read from the original text files, as are initial conditions for...
 
