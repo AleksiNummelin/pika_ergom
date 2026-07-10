@@ -10,7 +10,7 @@ This repository contains a modified version of the standalone Python-based appli
 
 Inside the _code_ directory there are two further sub-directories, _init_ and _physics_, providing initial biogeochemical conditions and physical forcing respectively.  The textfiles contained within were obtained from Hagen Radtke at the Leibniz Institute for Baltic Sea Research (IOW), and were used for initial testing.  Subsequently, the initial conditions and forcing have been updated at FMI as detailed below.
 
-When run 'out-the-box', **pika-ERGOM** simulates conditions close to Utö in the Archipelago Sea (https://en-beta.ilmatieteenlaitos.fi/uto).  It can in principle be applied at any location where inputs for temperature, salinity, mixed layer depth, wind and solar radiation inputs can be obtained.
+When run 'out-the-box', **pika-ERGOM** simulates 2020 conditions close to Utö in the Archipelago Sea (https://en-beta.ilmatieteenlaitos.fi/uto).  It can in principle be applied at any location where inputs for temperature, salinity, mixed layer depth, wind and solar radiation inputs can be obtained.
 
 # --- What is ERGOM? --- #
 
@@ -30,19 +30,25 @@ Currently (10.07.2026), bottom stress and background water opacity are still rea
 
 # --- Instructions for use --- #
 
+Once you have cloned this repository, no futher preparation steps are needed to run **pika-ERGOM**.  Simply execute
+
 **python code/run.py**
+
+and the model will run an iteration with the run_id "_ctrl_"
 
 This generates netcdf files as outputs.  To plot stuff quickly, go to the file code/comp_cmems.py and choose the parameters
 
-run_id =  # names of pika-ergom iterations
+run_id =  [] # names of pika-ergom iterations
 
-dpt    =  # depth
+dpt    =  [] # depth 
 
-units  =  # units
+units  =  [] # units
 
-var    =  # variable
+var    =  [] # variable
 
-ALSO make sure the variable name matches on the line below!
+       .[]   # variables
+       
+Make sure the variable name matches on both lines!
 
 And then 
 
