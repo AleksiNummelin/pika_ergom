@@ -8,11 +8,13 @@ Inside the _code_ directory there are two further sub-directories, _init_ and _p
 
 # --- What is ERGOM? --- #
 
-The Ecological ReGional Ocean Model (ERGOM, https://ergom.net/) was developed at IOW in order to model biogeochemical cycles in the Baltic Sea.  It has most often been used online coupled to the Modular Ocean Model (MOM), but has also been coupled to various other hydrodynamic models, including via the Framework for Aquatic Biogeochemical Models (FABM, https://github.com/fabm-model/fabm).  As part of the Baltic Sea Monitoring Forecasting Centre (BALMFC, https://marine.copernicus.eu/about/producers/bal-mfc), ERGOM is coupled, via FABM to the Nucleus for European Modelling of the Ocean (NEMO, https://forge.nemo-ocean.eu/nemo).  NEMO-Ergom is also being developed further (https://github.com/atwelves/ERGOM) for application to the Gulf of Finland as part of the Coastal Waters under Pressure (CoWup, ) project
+The Ecological ReGional Ocean Model (ERGOM, https://ergom.net/) was developed at IOW in order to model biogeochemical cycles in the Baltic Sea.  It has most often been used online coupled to the Modular Ocean Model (MOM), but has also been coupled to various other hydrodynamic models, including via the Framework for Aquatic Biogeochemical Models (FABM, https://github.com/fabm-model/fabm).  As part of the Baltic Sea Monitoring Forecasting Centre (BALMFC, https://marine.copernicus.eu/about/producers/bal-mfc), ERGOM is coupled, via FABM to the Nucleus for European Modelling of the Ocean (NEMO, https://forge.nemo-ocean.eu/nemo).  NEMO-Ergom is also being developed further (https://github.com/atwelves/ERGOM) for application to the Gulf of Finland as part of the Coastal Waters under Pressure (CoWup, project https://cowup.fmi.fi/).
 
+ERGOM is not in general distrubuted as a traditional code base.  Instead the ERGOM model is designed to be generated from two distinct components.  The first is a set of textfiles that describe the biogeochemical processes; the second is a template (or set of templates) that dictate how these processes should be written for compatibility with a given programming language and hydrodynamic model.  For standalone versions of ERGOM such as this one, where physical constraints are imposed as forcing without coupling to a hydrodynamic model, the template (s) simply translate the text files into the intended language -- in this case, Python.
 
+# --- Why pika-ERGOM? --- #
 
-# --- What is pika-ERGOM? --- #
+The original Python implementation of ERGOM 
 
 # --- Instructions for use --- #
 
