@@ -161,7 +161,7 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
     
     # Calculate diffusivity from wind and mixed layer depth, using OpenDrift diffusivity calculation                            #background diffusivity=0
     forcing_vector_diffusivity = physics_methods.verticaldiffusivity_Large1994(forcing_scalar_wind, depths, forcing_scalar_mld,                         0)
-    #
+    # Bottom stress
     forcing_scalar_bottom_stress, forcing_index_bottom_stress = load_forcing.load_forcing(forcing_matrix_bottom_stress,current_date,start_date,end_date, kmax, forcing_index_bottom_stress)
     
     # Load attenuation coefficient from satellite data?
@@ -237,45 +237,49 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
     # update the current date/time
     current_date = current_date + timestep
 
-### --- AGT --- ###
+# Write a limited number of variables to netcdf
 
-# write a limited number of variables to netcdf
-
-# coordinates
-
+# Time axis
 time  = pd.date_range("2020-01-01", periods=365)
+# Depth axis
 depth = depths
 
-# variables
-
+# Dissolved oxygen (mmol m⁻³)
 output_t_o2 = output_t_o2*1e6
-da = xr.DataArray(data=output_t_o2,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol mol⁻³",),)
+da = xr.DataArray(data=output_t_o2,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
 da.to_netcdf('{}_o2.nc'.format(run_id))
 
+# Phosphate (mmol m⁻³)
 output_t_po4 = output_t_po4*1e6
-da = xr.DataArray(data=output_t_po4,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol mol⁻³",),)
+da = xr.DataArray(data=output_t_po4,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
 da.to_netcdf('{}_po4.nc'.format(run_id))
 
+# Nitrate (mmol m⁻³)
 output_t_no3 = output_t_no3*1e6
-da = xr.DataArray(data=output_t_no3,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol mol⁻³",),)
+da = xr.DataArray(data=output_t_no3,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
 da.to_netcdf('{}_no3.nc'.format(run_id))
 
+# Ammonium (mmol m⁻³)
 output_t_nh4 = output_t_nh4*1e6
-da = xr.DataArray(data=output_t_nh4,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol mol⁻³",),)
+da = xr.DataArray(data=output_t_nh4,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
 da.to_netcdf('{}_nh4.nc'.format(run_id))
 
+# Large phytoplankton (mol kg⁻¹)
 output_t_lpp = output_t_lpp
 da = xr.DataArray(data=output_t_lpp,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
 da.to_netcdf('{}_lpp.nc'.format(run_id))
 
+# Small phytoplankton (mol kg⁻¹)
 output_t_spp = output_t_spp
 da = xr.DataArray(data=output_t_spp,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
 da.to_netcdf('{}_spp.nc'.format(run_id))
 
+# Cyanobacteria (mol kg⁻¹)
 output_t_cya = output_t_cya
 da = xr.DataArray(data=output_t_cya,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
 da.to_netcdf('{}_cya.nc'.format(run_id))
 
+# Chlorophyll-a (mg m⁻³)
 output_t_chl = 2e6*(output_t_spp + output_t_lpp + output_t_cya)
 da = xr.DataArray(data=output_t_chl,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mg m⁻³",),)
 da.to_netcdf('{}_chl.nc'.format(run_id))
