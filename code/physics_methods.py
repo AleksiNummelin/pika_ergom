@@ -22,7 +22,6 @@ import pandas as pd
 from math import sqrt
 import matplotlib.pyplot as plt
 import pyproj
-import cmocean
 
 
 def wind_drift_factor_from_trajectory(trajectory_dict, min_period=None):
