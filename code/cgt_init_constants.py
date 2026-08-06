@@ -103,9 +103,9 @@ def cgt_init_constants():
     global r_pp_mort       # mortality rate of phytoplankton [1/day]
     r_pp_mort       = 0.03     
     global r_cya_mort_diff # enhanced cya mortality due to strong turbulence
-    r_cya_mort_diff = 40.0     
+    r_cya_mort_diff = 0.02     
     global r_cya_mort_thresh # diffusivity threshold for enhanced cyano mortality
-    r_cya_mort_thresh = 0.02     
+    r_cya_mort_thresh = 40.0     
     global r_sed_ero       # maximum sediment detritus erosion rate [1/day]
     r_sed_ero       = 6.0      
     global r_sed_rec       # maximum recycling rate for sedimentary detritus [1/d]
