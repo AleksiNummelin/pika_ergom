@@ -12,6 +12,7 @@ import xarray as xr
 import pandas as pd
 import load_profiles
 import load_weather
+import load_mld
 import physics_methods
 import datetime as dt
 import numpy as np
@@ -152,9 +153,10 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
     forcing_vector_temperature, forcing_day_temperature , forcing_index_temperature = load_profiles.load_profiles(forcing_matrix_temperature,current_date,forcing_day_temperature,forcing_index_temperature,kmax)
     # Salinity profile
     forcing_vector_salinity   , forcing_day_salinity    , forcing_index_salinity    = load_profiles.load_profiles(forcing_matrix_salinity   ,current_date,forcing_day_salinity   ,forcing_index_salinity   ,kmax)
-    # Mixed layer depth
-    forcing_scalar_mld, forcing_day_mld , forcing_index_mld                         = load_profiles.load_profiles(forcing_matrix_mld,current_date,forcing_day_mld,forcing_index_mld,kmax)
     
+    # Load mixed layer depth from hydrodynamic model output
+    forcing_scalar_mld, forcing_day_mld , forcing_index_mld                         = load_mld.load_mld(forcing_matrix_mld,current_date,forcing_day_mld,forcing_index_mld)
+
     # Load shortwave radiation and wind speed from hourly weather station data, assuming time step is also 1hr
     counter = counter + 1 # assumes hourly weather input and time step
     # Shortwave radiation
@@ -166,6 +168,7 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
     
     # Calculate diffusivity from wind and mixed layer depth, using OpenDrift diffusivity calculation                            #background diffusivity=0
     forcing_vector_diffusivity = physics_methods.verticaldiffusivity_Large1994(forcing_scalar_wind, depths, forcing_scalar_mld,                         0)
+
     # Bottom stress
     forcing_scalar_bottom_stress, forcing_index_bottom_stress = load_forcing.load_forcing(forcing_matrix_bottom_stress,current_date,start_date,end_date, kmax, forcing_index_bottom_stress)
     
