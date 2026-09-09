@@ -3,7 +3,7 @@ import numpy as np
 
 def configure():
     global run_id
-    run_id             = 'ctrl'
+    run_id             = 'cya_neutral_tmin_15_mu_3_mort_3_Ksink_05'
     global bgc_input_file
     bgc_input_file     = 'init/cmems_station_Utö_bgc_2020.nc'
     global oce_phys_file
@@ -45,3 +45,9 @@ def configure():
     min_diffusivity    = 1e-4                 # minimum vertical turbulent diffusivity [m2/s]
     global max_diffusivity
     max_diffusivity    = 1                    # maximum vertical turbulent diffusivity [m2/s]
+
+    ### ~~~ pika-ERGOM ~~~ 
+    
+    global release_dates                      # List of dates at which to release Lagrangian particles from phytoplankton bloom
+    release_dates = [(dt.date(2020,7,15) - dt.date(1899,12,30)).days,
+                     (dt.date(2020,9,1)  - dt.date(1899,12,30)).days]
