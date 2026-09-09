@@ -41,10 +41,16 @@ def cgt_init_constants():
     global k_sul_o2        # reaction constant sul oxidation with o2 [kg/mol/day]
     k_sul_o2        = 20000.0  
     global light_opt_cya   # optimal light for diazotroph cyanobacteria growth [W/m**2]
+                           ### ~~~ pika-ERGOM ~~~ Range of values tested, impacts small.
+                           ### ~~~ pika-ERGOM ~~~ Could be used as basis for ensemble.
     light_opt_cya   = 50.0     
     global light_opt_lpp   # optimal light for large-cell phytoplankton growth [W/m**2]
+                           ### ~~~ pika-ERGOM ~~~ Range of values tested, impacts small.
+                           ### ~~~ pika-ERGOM ~~~ Could be used as basis for ensemble.
     light_opt_lpp   = 35.0     
     global light_opt_spp   # optimal light for small-cell phytoplankton growth [W/m**2]
+                           ### ~~~ pika-ERGOM ~~~ Range of values tested, impacts small.
+                           ### ~~~ pika-ERGOM ~~~ Could be used as basis for ensemble.
     light_opt_spp   = 50.0     
     global light_opt_lip   # optimal light for limnic phytoplankton growth [W/m**2]
     light_opt_lip   = 30.0     
@@ -79,7 +85,9 @@ def cgt_init_constants():
     global r_biores        # bio-resuspension rate [1/day]
     r_biores        = 0.015    
     global r_cya_assim     # maximum rate for nutrient uptake of diazotroph cyanobacteria [1/day]
-    r_cya_assim     = 0.75     
+                           ### ~~~ pika-ERGOM ~~~ Increased from 0.75 d⁻¹ to 3.0 d⁻¹, to better match rapid cyanobacteria growth seen in flow cytometry from Utö
+                           ### ~~~ pika-ERGOM ~~~ Kraft et al. (2025): https://doi.org/10.1016/j.hal.2025.102865
+    r_cya_assim     = 3.0     
     global r_cya_resp      # respiration rate of cyanobacteria to ammonium [1/day]
     r_cya_resp      = 0.01     
     global r_det_rec       # recycling rate (detritus to ammonium) at 0°C [1/day]
@@ -91,7 +99,10 @@ def cgt_init_constants():
     global r_ips_liber     # PO4 liberation rate under anoxic conditions [1/day]
     r_ips_liber     = 0.1      
     global r_lpp_assim     # maximum rate for nutrient uptake of large-cell phytoplankton [1/day]
-    r_lpp_assim     = 1.38     
+                           ### ~~~ pika-ERGOM ~~~ Decreased from 1.38 d⁻¹ to 1.0 d⁻¹, to delay diatom bloom from March to April, as seen in Ferrybox data.
+                           ### ~~~ pika-ERGOM ~~~ Tvärminne lab experiments suggest a plausible range of 0.6 d⁻¹ to 1.2 d⁻¹, depending on species.
+                           ### ~~~ pika-ERGOM ~~~ Spilling (2007): http://urn.fi/URN:ISBN:978-952-10-3626-2 
+    r_lpp_assim     = 1.0     
     global r_lpp_resp      # respiration rate of large phytoplankton to ammonium [1/day]
     r_lpp_resp      = 0.075    
     global r_lip_assim     # maximum rate for nutrient uptake of limnic phytoplankton [1/day]
@@ -103,9 +114,14 @@ def cgt_init_constants():
     global r_pp_mort       # mortality rate of phytoplankton [1/day]
     r_pp_mort       = 0.03     
     global r_cya_mort_diff # enhanced cya mortality due to strong turbulence
-    r_cya_mort_diff = 0.02     
+                           ### ~~~ pika-ERGOM ~~~ Increase mortality of cyanobacteria to 0.3 d⁻¹ based on flow cytometry from Utö
+                           ### ~~~ pika-ERGOM ~~~ Kraft et al. (2025): https://doi.org/10.1016/j.hal.2025.102865
+
+    r_cya_mort_diff = 0.27     
     global r_cya_mort_thresh # diffusivity threshold for enhanced cyano mortality
-    r_cya_mort_thresh = 40.0     
+                           ### ~~~ pika-ERGOM ~~~ Apply increased mortality irrespective of diffusivity.
+                           ### ~~~ pika-ERGOM ~~~ Threshold based on diffusivity makes results highly setup-dependent.
+    r_cya_mort_thresh = 0.0     
     global r_sed_ero       # maximum sediment detritus erosion rate [1/day]
     r_sed_ero       = 6.0      
     global r_sed_rec       # maximum recycling rate for sedimentary detritus [1/d]
@@ -113,7 +129,10 @@ def cgt_init_constants():
     global r_sed_poc_rec   # maximum recycling rate for sedimentary POC [1/d]
     r_sed_poc_rec   = 0.0005   
     global r_spp_assim     # maximum rate for nutrient uptake of small-cell phytoplankton [1/day]
-    r_spp_assim     = 0.4      
+                           ### ~~~ pika-ERGOM ~~~ Decreased from 0.4 d⁻¹ to 0.2 d⁻¹, following removal of minimum temperature threshold.
+                           ### ~~~ pika-ERGOM ~~~ Tvärminne lab experiments suggest a plausible range of 0.2 d⁻¹ to 0.3 d⁻¹, depending on species.
+                           ### ~~~ pika-ERGOM ~~~ Spilling (2007): http://urn.fi/URN:ISBN:978-952-10-3626-2 
+    r_spp_assim     = 0.2      
     global r_spp_resp      # respiration rate of small phytoplankton to ammonium [1/day]
     r_spp_resp      = 0.0175   
     global r_zoo_graz      # maximum zooplankton grazing rate [1/day]
@@ -147,19 +166,30 @@ def cgt_init_constants():
     global sed_burial      # maximum sediment load before burial
     sed_burial      = 1.0      
     global spp0            # seed concentration for small-cell phytoplankton [mol/kg]
+                           ### ~~~ pika-ERGOM ~~~ Simulations show that an increase by around one order of magnitude leads to a spring bloom
+                           ### ~~~ pika-ERGOM ~~~ where diatoms and dinoflagellates co-exist almost equally. 
+                           ### ~~~ pika-ERGOM ~~~ Potential to conduct ensemble of runs with different initial conditions.
+                           ### ~~~ pika-ERGOM ~~~ Lab experiments from Tvärminne also suggest high sensitivity to initial conditions.
+                           ### ~~~ pika-ERGOM ~~~ Kremp et al. (2008): 
     spp0            = 4.5E-9   
     global temp_min_cya    # lower temperature limit - diazotroph cyanobacteria [°C]
-    temp_min_cya    = 13.5     
+                           ### ~~~ pika-ERGOM ~~~ Increasd from 13.5 deg. C to 15.0 deg. C in order to match FICOS model
+                           ### ~~~ pika-ERGOM ~~~ Lignell et al. (2025): 
+    temp_min_cya    = 15.0     
     global temp_switch_cya # strengs of temperature control for cyano growth
     temp_switch_cya = 4.0      
     global temp_min_spp    # lower temperature limit - small-cell phytoplankton [°C]
-    temp_min_spp    = 10.0     
+                           ### ~~~ pika-ERGOM ~~~ Lower temperature limit (10 deg. C) removed to allow for growth of cold-water dinoflagellates.
+                           ### ~~~ pika-ERGOM ~~~ Spilling (2007): http://urn.fi/URN:ISBN:978-952-10-3626-2
+    temp_min_spp    = 0.0     
     global temp_opt_zoo    # optimal temperature for zooplankton grazing [°C]
     temp_opt_zoo    = 20.0     
     global w_co2_stf       # piston velocity for co2 surface flux [m/d]
     w_co2_stf       = 4.0      
     global w_cya           # vertical speed of diazotroph cyanobacteria [m/day]
-    w_cya           = 1.0      
+                           ### ~~~ pika-ERGOM ~~~ Buoyancy (vertical speed +1 m/d) removed to prevent excessive cyanobacteria persistence in autumn.
+                           ### ~~~ pika-ERGOM ~~~ ### ~~~ pika-ERGOM ~~~ Kraft et al. (2025): https://doi.org/10.1016/j.hal.2025.102865
+    w_cya           = 0.0      
     global w_det           # vertical speed of detritus [m/day]
     w_det           = -4.5  
     global w_ipw           # vertical speed of suspended iron PO4 [m/day]
@@ -169,7 +199,8 @@ def cgt_init_constants():
     global w_ipw_sedi      # sedimentation velocity for iron PO4 [m/day]
     w_ipw_sedi      = -0.5     
     global w_lpp           # vertical speed of large-cell phytoplankton [m/day]
-    w_lpp           = -0.5     
+                           ### ~~~ pika-ERGOM ~~~ Sinking speed increased from 0.5 m/d to 1.0 m/d.
+    w_lpp           = -1.0     
     global w_n2_stf        # piston velocity for n2 surface flux [m/d]
     w_n2_stf        = 5.0      
     global w_o2_stf        # piston velocity for oxygen surface flux [m/d]
@@ -253,4 +284,4 @@ def cgt_init_constants():
     global alk_btf_D1      # upper depth for alkalinity dissolution from sea bed
     alk_btf_D1      = 10.0     
     global alk_btf_D2      # below depth D2 alkalinity dissolution from sea bed is reduced by alk_btf_Dfac
-    alk_btf_D2      = 75.0     
+    alk_btf_D2      = 75.0
