@@ -285,3 +285,9 @@ def cgt_init_constants():
     alk_btf_D1      = 10.0     
     global alk_btf_D2      # below depth D2 alkalinity dissolution from sea bed is reduced by alk_btf_Dfac
     alk_btf_D2      = 75.0
+
+    ### ~~~ pika-ERGOM ~~~ ### - new constants
+    global K_sink          # Half-saturation constant for decrease of sinking speed at thermocline (K/m)
+                           # Introduced to force trapping of detritus at thermocline and generate late-summer oxygen minimum.
+                           # Raateoja et al. (2010): "Late summer metalimnetic oxygen minimum zone in the northern Baltic Sea"
+    K_sink          = 0.5

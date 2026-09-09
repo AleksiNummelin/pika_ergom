@@ -146,6 +146,7 @@ forcing_scalar_light_at_top = 0
 forcing_scalar_wind         = 0
 counter = -1 # assumes hourly weather input and time step
 # do the timestep
+release_date = (dt.date(2020,8,1) - dt.date(1899,12,30)).days
 while current_date < repeated_runs*(end_date-start_date)+start_date:
     
     # Load temperature, salinity and mixed layer depth from hydrodynamic model output
@@ -207,6 +208,11 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
     output_scalar_bottom_stress = output_scalar_bottom_stress + forcing_scalar_bottom_stress
     output_count=output_count+1
     
+    # Calculate the thermocline strength dT/dZ for use in sinking speed calculation
+    dTdZ     = np.abs(np.divide(np.diff(forcing_vector_temperature),np.diff(depths)))
+    sink_fac = np.square(1 - np.divide(dTdZ,(dTdZ+K_sink)))
+    sink_fac = np.append(sink_fac,sink_fac[-1])
+    
     # do the biology including vertical migration / particle sinking
     cgt_bio_timestep()
     
@@ -264,6 +270,12 @@ da = xr.DataArray(data=output_t_po4,dims=["time","depth"],coords=dict(time=time,
 da.to_netcdf('{}_po4.nc'.format(run_id))
 print('{}_po4.nc'.format(run_id))
 
+# DOP (mmol m⁻³)
+output_t_po4 = output_t_po4*1e6
+da = xr.DataArray(data=output_t_dop,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
+da.to_netcdf('{}_dop.nc'.format(run_id))
+print('{}_dop.nc'.format(run_id))
+
 # Nitrate (mmol m⁻³)
 output_t_no3 = output_t_no3*1e6
 da = xr.DataArray(data=output_t_no3,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
@@ -299,4 +311,15 @@ output_t_chl = 2e6*(output_t_spp + output_t_lpp + output_t_cya)
 da = xr.DataArray(data=output_t_chl,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mg m⁻³",),)
 print('{}_chl.nc'.format(run_id))
 da.to_netcdf('{}_chl.nc'.format(run_id))
+
+# pCO2
+da = xr.DataArray(data=output_pco2,dims=["time"],coords=dict(time=time),attrs=dict(units="",),)
+print('{}_pco2.nc'.format(run_id))
+da.to_netcdf('{}_pco2.nc'.format(run_id))
+
+# detritus
+output_t_det = output_t_det*1e6
+da = xr.DataArray(data=output_t_det,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
+da.to_netcdf('{}_det.nc'.format(run_id))
+print('{}_det.nc'.format(run_id))
 

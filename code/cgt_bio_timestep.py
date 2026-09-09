@@ -2836,7 +2836,10 @@ def cgt_bio_timestep():
             # EXPLICIT MOVEMENT
             vertical_speed_of_t_cya          [k]=(w_cya)/(24*3600.0)   # convert to m/s
             vertical_diffusivity_of_t_cya          [k]=(0.0)          # leave as m2/s
-            vertical_speed_of_t_det          [k]=(w_det)/(24*3600.0)   # convert to m/s
+            ### ~~~ pika-ERGOM ~~~ Sinking speed of detritus modified according to factor based on 
+            ### ~~~ pika-ERGOM ~~~ local strength of thermocline.                     
+            vertical_speed_of_t_det          [k]=(w_det*sink_fac[k])/(24*3600.0)   # convert to m/s
+            ### ~~~~~~~~~~~~~~~~~~
             vertical_diffusivity_of_t_det          [k]=(0.0)          # leave as m2/s
             vertical_speed_of_t_poc          [k]=(w_poc_var)/(24*3600.0)   # convert to m/s
             vertical_diffusivity_of_t_poc          [k]=(0.0)          # leave as m2/s
