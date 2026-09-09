@@ -26,9 +26,15 @@ In the original standalone version of ERGOM, diffusivity is read off from a text
 
 For oxygen, nitrate, phosphate and ammonium, initial conditions are taken from the BALMFC Biogeochemistry Reanalysis (https://doi.org/10.48670/moi-00012).  Note that units for these variables are converted from mmol m⁻³ to mol kg⁻¹ for use in **pika-ERGOM**, and then are converted back to mmol m⁻³ when they are produced from **pika-ERGOM** as outputs.
 
-Currently (10.07.2026), bottom stress and background water opacity are still read from the original text files, as are initial conditions for nitrogen, dissolved inorganic carbon, phytoplankton, zooplankton, hydrogen sulpihde, total alkalinity, detritus and sediment variables.  
+Currently (10.07.2026), bottom stress and background water opacity are still read from the original text files, as are initial conditions for nitrogen, dissolved inorganic carbon, phytoplankton, zooplankton, hydrogen sulpihde, total alkalinity, detritus and sediment variables.
 
-# --- Instructions for use --- #
+Some phytoplankton growth parameters have been tuned, as indicated in the cgt_init_constants file, and a new parameterization for sinking speed has been added.  Instead of sinking at a constant rate, detrtitus now slows down when it reaches the thermocline, with the maximum sinking velocity w_max adjusted by a term depending on the gradient of temperature with depth, dT/dZ:
+
+w = w_max (1 - (dt/dZ)/(K_sink + dt/dZ))
+
+with the inclusion of a new constant K_sink, currently set to 0.5 K/m.
+
+# --- Instructions for basic use --- #
 
 Once you have cloned this repository, no futher preparation steps are needed to make your first **pika-ERGOM** run.  Simply go to the code directory and execute
 
