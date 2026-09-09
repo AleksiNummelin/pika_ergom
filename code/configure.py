@@ -3,7 +3,7 @@ import numpy as np
 
 def configure():
     global run_id
-    run_id             = 'cya_neutral_tmin_15_mu_3_mort_3_Ksink_05'
+    run_id             = 'ctrl'
     global bgc_input_file
     bgc_input_file     = 'init/cmems_station_Utö_bgc_2020.nc'
     global oce_phys_file
