@@ -68,3 +68,9 @@ To make a new pika-ergom run with different parameter choices:
 2) Edit parameter values in cgt_init_constants.py
 3) Add your new run_id to the array in the comp_cmems.py file
 4) Re-run and re-plot
+
+# --- For more advanced use --- #
+
+- **submit_ensemble.sh** can be used to run an ensemble of simulations with different parameters in cgt_init_constants.py
+
+- **run_with_particle_release** can be used to follow Lagrangian trajectories of particles released in the bloom (detritus) 
