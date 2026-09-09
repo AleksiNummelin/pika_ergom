@@ -146,7 +146,6 @@ forcing_scalar_light_at_top = 0
 forcing_scalar_wind         = 0
 counter = -1 # assumes hourly weather input and time step
 # do the timestep
-release_date = (dt.date(2020,8,1) - dt.date(1899,12,30)).days
 while current_date < repeated_runs*(end_date-start_date)+start_date:
     
     # Load temperature, salinity and mixed layer depth from hydrodynamic model output
