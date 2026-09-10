@@ -10,7 +10,7 @@ This repository contains a modified version of the standalone Python-based appli
 
 Inside the _code_ directory there are two further sub-directories, _init_ and _physics_, providing initial biogeochemical conditions and physical forcing respectively.  The textfiles contained within were obtained from Hagen Radtke at the Leibniz Institute for Baltic Sea Research (IOW), and were used for initial testing.  Subsequently, the initial conditions and forcing have been updated at FMI as detailed below.
 
-When run 'out-the-box', **pika-ERGOM** simulates 2020 conditions close to Utö in the Archipelago Sea (https://en-beta.ilmatieteenlaitos.fi/uto).  It can in principle be applied at any location where inputs for temperature, salinity, mixed layer depth, wind and solar radiation inputs can be obtained.
+When run 'out-the-box', **pika-ERGOM** simulates 2020 conditions close to Utö in the Archipelago Sea (https://en-beta.ilmatieteenlaitos.fi/uto).  It can in principle be applied at any location where inputs for temperature, salinity, mixed layer depth, wind and solar radiation can be obtained.
 
 # --- What is ERGOM? --- #
 
