@@ -34,29 +34,14 @@ def cgt_init_tracers():
     global tracer_vector_t_dic          
     tracer_vector_t_dic           = np.loadtxt('init/t_dic.txt')
 
-    global tracer_vector_t_spp          
-    tracer_vector_t_spp           = np.loadtxt('init/t_spp.txt')
-
-    global tracer_vector_t_zoo          
-    tracer_vector_t_zoo           = np.loadtxt('init/t_zoo.txt')
-
     global tracer_vector_t_h2s          
     tracer_vector_t_h2s           = np.loadtxt('init/t_h2s.txt')
 
     global tracer_vector_t_alk          
     tracer_vector_t_alk           = np.loadtxt('init/t_alk.txt')
 
-    global tracer_vector_t_lip          
-    tracer_vector_t_lip           = np.loadtxt('init/t_lip.txt')
-
-    global tracer_vector_t_cya          
-    tracer_vector_t_cya           = np.loadtxt('init/t_cya.txt')
-
     global tracer_vector_t_det          
     tracer_vector_t_det           = np.loadtxt('init/t_det.txt')
-
-    global tracer_vector_t_lpp          
-    tracer_vector_t_lpp           = np.loadtxt('init/t_lpp.txt')
 
     global tracer_vector_t_ipw          
     tracer_vector_t_ipw           = np.loadtxt('init/t_ipw.txt')
@@ -78,6 +63,17 @@ def cgt_init_tracers():
 
 
     # others are initialized as constant
+    global tracer_vector_t_lpp 
+    tracer_vector_t_lpp             = np.full(kmax,lpp0)
+    global tracer_vector_t_spp
+    tracer_vector_t_spp             = np.full(kmax,spp0)
+    global tracer_vector_t_cya
+    tracer_vector_t_cya             = np.full(kmax,cya0)
+    global tracer_vector_t_lip
+    tracer_vector_t_lip             = np.full(kmax,lip0)
+    global tracer_vector_t_zoo
+    tracer_vector_t_zoo             = np.full(kmax,zoo0)
+
     global tracer_vector_t_sul          
     tracer_vector_t_sul           = np.full(kmax,0.0)
     global tracer_vector_t_doc          
