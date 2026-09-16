@@ -15,13 +15,13 @@ def cgt_init_tracers():
     tracer_vector_t_o2            = ds.o2.isel(time=0).values
     tracer_vector_t_o2            = np.squeeze(tracer_vector_t_o2)*1e-6
 
-    global tracer_vector_t_no3
-    tracer_vector_t_no3            = ds.no3.isel(time=0).values
-    tracer_vector_t_no3            = np.squeeze(tracer_vector_t_no3)*1e-6
+#    global tracer_vector_t_no3
+#    tracer_vector_t_no3            = ds.no3.isel(time=0).values
+#    tracer_vector_t_no3            = np.squeeze(tracer_vector_t_no3)*1e-6
 
-    global tracer_vector_t_po4
-    tracer_vector_t_po4            = ds.po4.isel(time=0).values
-    tracer_vector_t_po4            = np.squeeze(tracer_vector_t_po4)*1e-6
+#    global tracer_vector_t_po4
+#    tracer_vector_t_po4            = ds.po4.isel(time=0).values
+#    tracer_vector_t_po4            = np.squeeze(tracer_vector_t_po4)*1e-6
 
     global tracer_vector_t_nh4
     tracer_vector_t_nh4            = ds.nh4.isel(time=0).values
@@ -73,6 +73,13 @@ def cgt_init_tracers():
     tracer_vector_t_lip             = np.full(kmax,lip0)
     global tracer_vector_t_zoo
     tracer_vector_t_zoo             = np.full(kmax,zoo0)
+
+    # try initialiszing nutrients constant
+    global tracer_vector_t_no3
+    tracer_vector_t_no3            = np.full(kmax,76*1e-6/14)
+    global tracer_vector_t_po4
+    tracer_vector_t_po4            = np.full(kmax,22*1e-6/31)
+
 
     global tracer_vector_t_sul          
     tracer_vector_t_sul           = np.full(kmax,0.0)
