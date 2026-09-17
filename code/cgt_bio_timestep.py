@@ -1076,7 +1076,7 @@ def cgt_bio_timestep():
                 p_spp_graz_zoo  = max(p_spp_graz_zoo ,0.0) 
 
                 # grazing of zooplankton eating diazotroph cyanobacteria :
-                p_cya_graz_zoo  = ((t_zoo+zoo0)*lr_graz_zoo*(0.5*t_cya)/max(food_zoo,epsilon))*lim_t_cya_17 
+                p_cya_graz_zoo  = ((t_zoo+zoo0)*lr_graz_zoo*(0.5*t_cya)/max(food_zoo,epsilon))*lim_t_cya_17
                 p_cya_graz_zoo  = max(p_cya_graz_zoo ,0.0) 
 
                 # grazing of zooplankton eating limnic phytoplankton :
@@ -1120,7 +1120,8 @@ def cgt_bio_timestep():
                 p_cya_mort_det  = max(p_cya_mort_det ,0.0) 
 
                 # mortality of diazotroph cyanobacteria due to strong turbulence :
-                p_cya_mort_det_diff = (t_cya*r_pp_mort*(r_cya_mort_diff*theta(cgt_diffusivity-r_cya_mort_thresh)))*lim_t_cya_17 
+                # ~~~ pika-ERGOM ~~~ Now uses threshold based on min. temperature, not max. turbulence
+                p_cya_mort_det_diff = (t_cya*r_pp_mort*(r_cya_mort_diff*theta(r_cya_mort_thresh-cgt_temp)))*lim_t_cya_17 
                 p_cya_mort_det_diff = max(p_cya_mort_det_diff,0.0) 
 
                 # mortality of zooplankton :

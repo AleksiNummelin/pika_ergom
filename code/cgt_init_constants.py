@@ -117,11 +117,11 @@ def cgt_init_constants():
                            ### ~~~ pika-ERGOM ~~~ Increase mortality of cyanobacteria to 0.3 d⁻¹ based on flow cytometry from Utö
                            ### ~~~ pika-ERGOM ~~~ Kraft et al. (2025): https://doi.org/10.1016/j.hal.2025.102865
 
-    r_cya_mort_diff = 0.27     
+    r_cya_mort_diff = 10.00   
     global r_cya_mort_thresh # diffusivity threshold for enhanced cyano mortality
-                           ### ~~~ pika-ERGOM ~~~ Apply increased mortality irrespective of diffusivity.
-                           ### ~~~ pika-ERGOM ~~~ Threshold based on diffusivity makes results highly setup-dependent.
-    r_cya_mort_thresh = 0.0     
+                           ### ~~~ pika-ERGOM ~~~ Switch threshold to use (minimum) temperature rather than max. diffusivity.
+                           ### ~~~ pika-ERGOM ~~~ Threshold based on diffusivity makes results highly dependent on choice of hydrodynamic model.
+    r_cya_mort_thresh = 15.0     
     global r_sed_ero       # maximum sediment detritus erosion rate [1/day]
     r_sed_ero       = 6.0      
     global r_sed_rec       # maximum recycling rate for sedimentary detritus [1/d]

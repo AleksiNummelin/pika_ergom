@@ -305,6 +305,12 @@ da = xr.DataArray(data=output_t_cya,dims=["time","depth"],coords=dict(time=time,
 da.to_netcdf('{}_cya.nc'.format(run_id))
 print('{}_cya.nc'.format(run_id))
 
+# Zooplankton (mol kg⁻¹)
+output_t_zoo = output_t_zoo
+da = xr.DataArray(data=output_t_zoo,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mol kg⁻¹",),)
+da.to_netcdf('{}_zoo.nc'.format(run_id))
+print('{}_zoo.nc'.format(run_id))
+
 # Chlorophyll-a (mg m⁻³)
 output_t_chl = 2e6*(output_t_spp + output_t_lpp + output_t_cya)
 da = xr.DataArray(data=output_t_chl,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mg m⁻³",),)
@@ -321,4 +327,10 @@ output_t_det = output_t_det*1e6
 da = xr.DataArray(data=output_t_det,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
 da.to_netcdf('{}_det.nc'.format(run_id))
 print('{}_det.nc'.format(run_id))
+
+# DIC
+output_t_dic = output_t_dic*1e6
+da = xr.DataArray(data=output_t_dic,dims=["time","depth"],coords=dict(time=time,depth=depth),attrs=dict(units="mmol m⁻³",),)
+da.to_netcdf('{}_dic.nc'.format(run_id))
+print('{}_dic.nc'.format(run_id))
 
