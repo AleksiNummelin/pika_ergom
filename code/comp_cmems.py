@@ -3,7 +3,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-run_id =                                                                                   ['ctrl','IU7']#, names of pika-ergom iterations     
+run_id =                                                                                   ['ctrl']#, names of pika-ergom iterations     
 dpt    =                                                                                        0  # depth
 units  =                                                                                'mmol m⁻³' # units
 var    =                                                                                     'chl' # variable
@@ -28,12 +28,12 @@ for name in run_id:
     plt.plot(pika_time,pika,label='pika-ergom_{}'.format(name))
 
 # flow cytometry data
-infile = ''
-ds = xr.open_dataset('{}/IFCB_flow_{}.nc'.format(infile,year))
-print(ds)
-flow_chl = ds.Chla_new_calc.values
-flow_times = ds.time.values
-plt.plot(flow_times,flow_chl,label='flow cytometry')
+#infile = ''
+#ds = xr.open_dataset('{}/IFCB_flow_{}.nc'.format(infile,year))
+#print(ds)
+#flow_chl = ds.Chla_new_calc.values
+#flow_times = ds.time.values
+#plt.plot(flow_times,flow_chl,label='flow cytometry')
 
 # plot reanalysis as reference
 plt.plot(times,cmems,label='cmems-reanalysis')
