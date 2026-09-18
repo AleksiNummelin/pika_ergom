@@ -8,7 +8,7 @@ colorbrewer = [(166/255, 97/255, 26/255),
                (128/255,205/255,193/255),
                (  1/255,133/255,113/255)]
 
-run_id =                                                                                   ['cmems_iow','cmems_fmi','IU7_iow','IU7_fmi']#, names of pika-ergom iterations     
+run_id =                                                                                   ['ctrl']#, names of pika-ergom iterations     
 dpt    =                                                                                        0  # depth
 units  =                                                                                'microgram / L' # units
 var    =                                                                                     'chl' # variable
