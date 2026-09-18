@@ -183,6 +183,8 @@ def cgt_init_constants():
                            ### ~~~ pika-ERGOM ~~~ Spilling (2007): http://urn.fi/URN:ISBN:978-952-10-3626-2
     temp_min_spp    = 0.0     
     global temp_opt_zoo    # optimal temperature for zooplankton grazing [°C]
+                           ### ~~~ pika-ERGOM ~~~ Values of 10 degrees and 15 degrees also tested.
+                           ### ~~~ pika-ERGOM ~~~ effect on results very small.
     temp_opt_zoo    = 20.0     
     global w_co2_stf       # piston velocity for co2 surface flux [m/d]
     w_co2_stf       = 4.0      
