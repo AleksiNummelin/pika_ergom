@@ -6,20 +6,20 @@ import numpy as np
 year = 2020
 
 colors = ['k','r','b','g']
-#run_id =                                                                                   ['ctrl','aranda']#, names of pika-ergom iterations     
+#run_id =                                                                                   ['ctrl']#, names of pika-ergom iterations     
 run_id = ['ctrl','IU7']
-dpt    =                                                                                       4.5  # depth
+dpt    =                                                                                       0.0  # depth
 units  =                                                                                'microgram / L' # units
 
 plt.figure()
 
 # flow cytometry data
-infile = ''
-ds = xr.open_dataset('{}/IFCB_flow_{}.nc'.format(infile,year))
-print(ds)
-flow_chl = ds['Filamentous.cyanobacteria'].values
-flow_times = ds.time.values
-plt.bar(flow_times,flow_chl,width=0.1,label='IFCB',color='grey',alpha=0.5)
+#infile = ''
+#ds = xr.open_dataset('{}/IFCB_flow_{}.nc'.format(infile,year))
+#print(ds)
+#flow_chl = ds['Filamentous.cyanobacteria'].values
+#flow_times = ds.time.values
+#plt.bar(flow_times,flow_chl,width=0.1,label='IFCB',color='grey',alpha=0.5)
 
 i = -1
 for name in run_id:
