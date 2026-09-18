@@ -6,8 +6,7 @@ import numpy as np
 year = 2020
 
 colors = ['k','r','b','g']
-#run_id =                                                                                   ['ctrl']#, names of pika-ergom iterations     
-run_id = ['ctrl','IU7']
+run_id =                                                                                   ['ctrl']#, names of pika-ergom iterations     
 dpt    =                                                                                       0.0  # depth
 units  =                                                                                'microgram / L' # units
 
