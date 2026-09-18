@@ -5,7 +5,7 @@ import numpy as np
 
 run_id =                                                                                   ['ctrl']#, names of pika-ergom iterations     
 dpt    =                                                                                        0  # depth
-units  =                                                                                'mmol m⁻³' # units
+units  =                                                                                'microgram / L' # units
 var    =                                                                                     'chl' # variable
                                                                                              #^^   !!! Check that variable names match !!!
 year   = 2020
