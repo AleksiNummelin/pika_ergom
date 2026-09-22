@@ -9,7 +9,7 @@ def load_weather(input_scalar, forcing_matrix, counter):
       # deal with missing values by using last valid measurement
       final_scalar = input_scalar
   
-  final_scalar = final_scalar.astype(float)
+  #final_scalar = final_scalar.astype(float)
 
-  return(final_scalar)
+  return np.asarray(final_scalar, dtype=float).item()
 

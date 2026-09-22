@@ -27,9 +27,9 @@ def configure():
     ds = xr.open_dataset(oce_phys_file)
 
     global location_longitude
-    location_longitude = ds.longitude.values                 # longitude [deg], for zenith angle calculation
+    location_longitude = ds.longitude.values.item()                 # longitude [deg], for zenith angle calculation
     global location_latitude
-    location_latitude  = ds.latitude.values                # latitude  [deg], for zenith angle calculation
+    location_latitude  = ds.latitude.values.item()                # latitude  [deg], for zenith angle calculation
     
     ###-------
 

@@ -179,6 +179,8 @@ while current_date < repeated_runs*(end_date-start_date)+start_date:
 
     # light calculation
     zenith = sunpos(dt.datetime(1899, 12, 30) + dt.timedelta(days=current_date),location_latitude,location_longitude,0)[1]
+    # Convert a possible one-element array to a scalar
+    zenith = np.asarray(zenith).item()
     forcing_scalar_zenith_angle = zenith*np.pi/180
 
     cgt_calc_opacity_bio()
