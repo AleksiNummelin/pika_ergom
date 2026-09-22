@@ -62,6 +62,10 @@ And then
 
 will generate time series comparing pika-ergom with the BALMFC Biogeochemistry reanalysis for the given variable and depth.
 
+**python plot_phyto,py**
+
+will generate time series for the three phytoplankton groups (diatoms, dinoflagellates, cyanobacteria)
+
 To make a new pika-ergom run with different parameter choices:
 
 1) Make a new run_id in the configure.py file 
