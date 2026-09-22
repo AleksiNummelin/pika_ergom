@@ -47,7 +47,7 @@ def lagrange_sink(model_name,input_date,Kz,sink_fac,mld,bathy,model_dz,model_dep
                 else:
                     Kz_local = 0
                 # diffuse to new depth, using normally distributed random number
-                delta_z = np.random.normal(0,np.sqrt(2*Kz_local*dt),1)
+                delta_z = np.random.normal(0,np.sqrt(2*Kz_local*dt),1)[0]
                 delta_z = np.nanmax([-mld/2,delta_z])
                 delta_z = np.nanmin([ mld/2,delta_z])
                 z[i,t] = z[i,t-1] + delta_z 
